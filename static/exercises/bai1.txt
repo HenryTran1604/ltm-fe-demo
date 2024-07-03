@@ -1,0 +1,8 @@
+[Mã câu hỏi: 700] Một chương trình server hỗ trợ kết nối qua giao thức TCP tại cổng 806 (hỗ trợ thời gian giao tiếp tối đa cho mỗi yêu cầu là 5s).
+Yêu cầu xây dựng chương trình client thực hiện kết nối tới server trên sử dụng luồng byte dữ liệu (InputStream/OutputStream) để trao đổi thông tin theo thứ tự: 
+a.	Gửi mã sinh viên và mã câu hỏi theo định dạng "studentCode;qCode". Ví dụ: "B16DCCN999;700"
+b.	Nhận dữ liệu từ server là một chuỗi gồm hai giá trị nguyên được phân tách với nhau bằng  "|"
+Ex: 2|5|9|11
+c.	Thực hiện tìm giá trị tổng của các số nguyên trong chuỗi và gửi lên server
+Ex: 27
+d.	Đóng kết nối và kết thúc

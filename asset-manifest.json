@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ltm-fe-demo/static/css/main.3ceb18c7.css",
+    "main.js": "/ltm-fe-demo/static/js/main.cfe8277e.js",
+    "static/js/453.a0d61c50.chunk.js": "/ltm-fe-demo/static/js/453.a0d61c50.chunk.js",
+    "index.html": "/ltm-fe-demo/index.html",
+    "main.3ceb18c7.css.map": "/ltm-fe-demo/static/css/main.3ceb18c7.css.map",
+    "main.cfe8277e.js.map": "/ltm-fe-demo/static/js/main.cfe8277e.js.map",
+    "453.a0d61c50.chunk.js.map": "/ltm-fe-demo/static/js/453.a0d61c50.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3ceb18c7.css",
+    "static/js/main.cfe8277e.js"
+  ]
+}
