@@ -17,6 +17,7 @@ const Header = () => {
                         <Link to={'/'}>Danh sách IP</Link>
                         <Link to={'/exercises'}>Đề bài</Link>
                         <Link to={'/scoreboard'}>Bảng xếp hạng</Link>
+                        <Link to={'/log'}>Log</Link>
                     </div>
                 </div>
 

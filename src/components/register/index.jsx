@@ -34,7 +34,7 @@ const Register = () => {
         ]
     }
     const [uid, setUid] = useState('')
-    const [IP, setIP] = useState('')
+    const [IP, setIP] = useState('Detecting...')
     const [message, setMessage] = useState('')
 
     const navigate = useNavigate()
@@ -49,7 +49,12 @@ const Register = () => {
 
     const handleAddUser = (e) => {
         e.preventDefault();
-        if (validateStudentCode(uid)) {
+        if(IP === 'Detecting...') {
+            toast.error('Vui lòng chờ detect IP!', {
+                autoClose: 2000
+            })
+        }
+        else if (validateStudentCode(uid)) {
             if (uid !== '' && IP !== '') {
                 user['ip'] = IP;
                 user['uid'] = uid;
@@ -103,8 +108,9 @@ const Register = () => {
                 </div>
             </div>
             <div className='flex justify-end mt-8'>
-                <button className='bg-[#0A68FF] px-4 py-2 rounded-md text-white outline-none' 
-                onClick={handleAddUser}>Đăng ký</button>
+                <button className={`${uid.length !== 0 && IP.length !== 0 ? `bg-[#0A68FF]` : `bg-[#808089]` }  px-4 py-2 rounded-md text-white outline-none`}
+                onClick={handleAddUser}
+                >Đăng ký</button>
             </div>
         </form >
     );

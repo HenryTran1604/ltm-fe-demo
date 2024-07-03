@@ -6,7 +6,7 @@ const ScoreBoardPage = () => {
     return (
         <div>
             <Header/>
-            <div className='mt-20'>
+            <div className='mt-20 p-8'>
                 <ScoreBoard />
             </div>
         </div>

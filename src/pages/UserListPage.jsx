@@ -6,7 +6,7 @@ const UserListPage = () => {
     return (
         <div>
             <Header/>
-            <div className='mt-20'>
+            <div className='mt-20 flex items-center justify-center'>
                 <UserList/>
             </div>
         </div>
