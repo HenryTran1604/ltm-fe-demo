@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage';
 import { ToastContainer } from 'react-toastify';
@@ -9,6 +8,7 @@ import AppProvider from './context/AppProvider';
 import ExercisesPage from './pages/ExercisesPage';
 import ScoreBoardPage from './pages/ScoreBoardPage';
 import LogPage from './pages/LogPage';
+import TestPage from './pages/TestPage';
 
 
 function App() {
@@ -23,6 +23,8 @@ function App() {
             <Route path='/exercises' element=<ExercisesPage /> />
             <Route path='/scoreboard' element=<ScoreBoardPage /> />
             <Route path='/log' element=<LogPage/>  />
+            <Route path='/test' element=<TestPage/>  />
+
           </Routes>
           <ToastContainer />
         </AppProvider>
