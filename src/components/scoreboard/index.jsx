@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getRealTimeAllDocument } from '../../firebase/Services';
+import { AuthContext } from '../../context/AuthProvider';
 
 const ScoreBoard = () => {
-    const state = {
-        0: 'unsolve',
-        '-1': 'ac',
-
-    }
     const [users, setUsers] = useState([])
+    const { user } = useContext(AuthContext);
     useEffect(() => {
         const unsubcribe = getRealTimeAllDocument('users', (realtimeUsers) => {
             realtimeUsers.forEach((user, _) => {
@@ -21,10 +18,12 @@ const ScoreBoard = () => {
         })
         return () => unsubcribe()
     }, [])
+    const isThisUser = (cmpUser) => {
+       return user.uid === cmpUser.uid && user.ip === cmpUser.ip;
+    }
     return (
         <div className='p-8'>
             <div className='bg-white rounded-md p-4'>
-                {console.log(users)}
                 <table className='relative min-w-full divide-y divide-gray-200 dark:divide-neutral-700 '>
                     <thead className='border-b-2 border-solid border-black'>
                         <tr>
@@ -40,16 +39,16 @@ const ScoreBoard = () => {
                     </thead>
                     <tbody>
                         {
-                            users.map((user, id) => (
-                                <tr key={id} className='{`odd:bg-white even:bg-gray-100 hover:bg-gray-200 border-y-2 border-black border-solid rounded-sm ${isThisUser(currentUser) && `!bg-[#99d8f7]`}`}'>
+                            users.map((currentUser, id) => (
+                                <tr key={id} className={`odd:bg-white even:bg-gray-100 hover:bg-gray-200 border-y-2 border-black border-solid rounded-sm ${isThisUser(currentUser) && `!bg-[#99d8f7]`}`}>
                                     <td className='px-6 whitespace-nowrap text-sm font-medium text-gray-800'>{id + 1}</td>
                                     <td className='px-6 whitespace-nowrap text-sm font-medium text-gray-800'>
-                                        <div className='text-lg'>{user.uid.toUpperCase()}</div>
-                                        <div className='text-sm text-[dimgrey]'>{user.ip}</div>
+                                        <div className='text-lg'>{currentUser.uid.toUpperCase()}</div>
+                                        <div className='text-sm text-[dimgrey]'>{currentUser.ip}</div>
                                     </td>
-                                    <td className='px-6 whitespace-nowrap text-sm font-medium text-gray-800'>{user.score}</td>
+                                    <td className='px-6 whitespace-nowrap text-sm font-medium text-gray-800'>{currentUser.score}</td>
                                     {
-                                        user.exercises?.map((exercise, index) => (
+                                        currentUser.exercises?.map((exercise, index) => (
                                             <td key={index} className='px-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center'>
                                                 <div className={`${exercise.try > 0 ? `bg-[#e87272]` : ''}  ${exercise.ac !== 0 ? `!bg-[#60e760]` : ''} min-h-12 w-16 m-auto`}>
                                                     {exercise.try !== 0 && `${exercise.try} Try`}

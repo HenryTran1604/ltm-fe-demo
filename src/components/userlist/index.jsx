@@ -14,11 +14,11 @@ const UserList = () => {
         fetchAllUsers()
     }, [])
     const isThisUser = (cmpUser) => {
-        return Object.entries(user).sort().toString() === Object.entries(cmpUser).sort().toString()
+        return user.uid === cmpUser.uid && user.ip === cmpUser.ip;
     }
     return (
         <div className='flex items-center justify-center'>
-            <div class="rounded-lg bg-white p-4">
+            <div className="rounded-lg bg-white p-4">
                 <table className='relative min-w-full divide-y divide-gray-200 dark:divide-neutral-700 '>
                     <thead className=''>
                         <tr>
