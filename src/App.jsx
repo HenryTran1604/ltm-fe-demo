@@ -1,4 +1,4 @@
-import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
