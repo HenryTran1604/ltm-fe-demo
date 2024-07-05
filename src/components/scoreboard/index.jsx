@@ -31,7 +31,7 @@ const ScoreBoard = () => {
                         <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500">Score</th>
                         {
                             Array.from({ length: 4 }).map((_, i) =>
-                                <th className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {i}</th>
+                                <th key={i} className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {i}</th>
                             )
                         }
                     </tr>

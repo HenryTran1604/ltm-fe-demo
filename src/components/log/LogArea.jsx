@@ -21,11 +21,12 @@ const LogArea = (props) => {
 
         fetchHistoryLog();
 
-        const socket = new SockJS('http://localhost:8080/ws');
+        const socket = () => new SockJS('http://localhost:8080/ws');
         const client = Stomp.over(socket);
 
         client.connect({}, () => {
             client.subscribe('/topic/log', (msg) => {
+                console.log(msg.body)
                 setMessages((prevMessages) => [msg.body, ...prevMessages]);
             });
         });
