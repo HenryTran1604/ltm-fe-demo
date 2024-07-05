@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -13,7 +13,7 @@ import TestPage from './pages/TestPage';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AuthProvider>
         <AppProvider>
 
@@ -30,7 +30,7 @@ function App() {
         </AppProvider>
       </AuthProvider>
 
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
