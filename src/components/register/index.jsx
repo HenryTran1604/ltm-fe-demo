@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { getIP, storeUserToLocalStorage, validateStudentCode } from '../../services/UserServices';
+import { API_URL } from '../../constants';
 
 const Register = () => {
-    const [id, setId] = useState('')
+    const [studentCode, setStudentCode] = useState('')
     const [IP, setIP] = useState('Detecting...')
     const [message, setMessage] = useState('')
 
@@ -20,13 +21,13 @@ const Register = () => {
     }, [])
 
     const registerUser = async () => {
-        const response = await fetch('http://localhost:8080/register', {
+        const response = await fetch(`${API_URL}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "id": id,
+                "studentCode": studentCode,
                 "ip": IP
             })
         });
@@ -58,8 +59,8 @@ const Register = () => {
                 autoClose: 2000
             })
         }
-        else if (validateStudentCode(id)) {
-            if (id !== '' && IP !== '') {
+        else if (validateStudentCode(studentCode)) {
+            if (studentCode !== '' && IP !== '') {
                 registerUser()
             }
         } else {
@@ -76,7 +77,7 @@ const Register = () => {
                 </div>
                 <div className='flex-1 '>
                     <input type="text" className='w-full px-4 py-2 rounded-md border-2 border-black border-solid outline-none focus:border-[#0A68FF]'
-                        placeholder='Nhập mã sinh viên' required onChange={(e) => setId(e.target.value)} />
+                        placeholder='Nhập mã sinh viên' required onChange={(e) => setStudentCode(e.target.value)} />
                 </div>
             </div>
             <div className='text-sm text-orange-400 float-right'>
@@ -92,7 +93,7 @@ const Register = () => {
                 </div>
             </div>
             <div className='flex justify-end mt-8'>
-                <button className={`${id.length !== 0 && IP.length !== 0 ? `bg-[#0A68FF]` : `bg-[#808089]`}  px-4 py-2 rounded-md text-white outline-none`}
+                <button className={`${studentCode.length !== 0 && IP.length !== 0 ? `bg-[#0A68FF]` : `bg-[#808089]`}  px-4 py-2 rounded-md text-white outline-none`}
                     onClick={handleAddUser}
                 >Đăng ký</button>
             </div>

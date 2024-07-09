@@ -35,7 +35,7 @@ const UserList = () => {
                             // console.log(currentUser === user)
                             <tr key={id} className={`odd:bg-white even:bg-gray-100 hover:bg-gray-200 rounded-sm ${isThisUser(currentUser) && `!bg-[#99d8f7]`}`}>
                                 <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 '>{id + 1}</td>
-                                <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 '>{currentUser.id}</td>
+                                <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 '>{currentUser.studentCode}</td>
                                 <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 '>{currentUser.ip}</td>
                                 <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 '>{currentUser.createdAt}</td>
                                 {/* <td className='px-6 py-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400'>
