@@ -1,39 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { addDocument, isExistedUser } from '../../firebase/Services';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { getIP, storeUserToLocalStorage, validateStudentCode } from '../../services/UserServices';
 
 const Register = () => {
-    const user  = {
-        uid: '',
-        ip: '',
-        createdAt: '',
-        exercises: [
-            {
-                name: '1',
-                try: 0,
-                ac: 0
-            }, 
-            {
-                name: '2',
-                try: 0,
-                ac: 0
-            },
-            {
-                name: '3',
-                try: 0,
-                ac: 0
-            },
-            {
-                name: '4',
-                try: 0,
-                ac: 0
-            }
-        ]
-    }
-    const [uid, setUid] = useState('')
+    const [id, setId] = useState('')
     const [IP, setIP] = useState('Detecting...')
     const [message, setMessage] = useState('')
 
@@ -47,36 +19,48 @@ const Register = () => {
         fetchIP();
     }, [])
 
+    const registerUser = async () => {
+        const response = await fetch('http://localhost:8080/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "id": id,
+                "ip": IP
+            })
+        });
+
+        if(!response.ok) {
+            if (response.status === 400) {
+                toast.error('Mã sinh viên đã được đăng ký!', {
+                    autoClose: 2000
+                })
+            } else if(response.status !== 200) {
+                toast.error('Đã có lỗi xảy ra!', {
+                    autoClose: 2000
+                })
+            }
+        } else {
+            const user = await response.json();
+            storeUserToLocalStorage("ltm", user);
+            toast.success("Đăng kí thành công!", {
+                autoClose: 2000
+            })
+            navigate("/")
+        }
+    }
+
     const handleAddUser = (e) => {
         e.preventDefault();
-        if(IP === 'Detecting...') {
+        if (IP === 'Detecting...') {
             toast.error('Vui lòng chờ detect IP!', {
                 autoClose: 2000
             })
         }
-        else if (validateStudentCode(uid)) {
-            if (uid !== '' && IP !== '') {
-                user['ip'] = IP;
-                user['uid'] = uid;
-                user['createdAt'] = new Date().toLocaleString().replace(',','');
-                isExistedUser('users', user)
-                    .then(response => {
-                        // console.log(response)
-                        if (response) {
-                            toast.error('Mã sinh viên đã được đăng ký!', {
-                                autoClose: 2000
-                            })
-
-                        } else {
-                            addDocument('users', user);
-                            storeUserToLocalStorage('ltm', user);
-                            toast.success('Đã đăng kí thành công!', {
-                                autoClose: 2000
-                            })
-                            navigate('/')
-                        }
-                    })
-                    .catch(err => console.log(err))
+        else if (validateStudentCode(id)) {
+            if (id !== '' && IP !== '') {
+                registerUser()
             }
         } else {
             setMessage('Mã sinh viên phải đúng định dạng, ví dụ: B20DCCN999')
@@ -92,7 +76,7 @@ const Register = () => {
                 </div>
                 <div className='flex-1 '>
                     <input type="text" className='w-full px-4 py-2 rounded-md border-2 border-black border-solid outline-none focus:border-[#0A68FF]'
-                        placeholder='Nhập mã sinh viên' required onChange={(e) => setUid(e.target.value)} />
+                        placeholder='Nhập mã sinh viên' required onChange={(e) => setId(e.target.value)} />
                 </div>
             </div>
             <div className='text-sm text-orange-400 float-right'>
@@ -108,8 +92,8 @@ const Register = () => {
                 </div>
             </div>
             <div className='flex justify-end mt-8'>
-                <button className={`${uid.length !== 0 && IP.length !== 0 ? `bg-[#0A68FF]` : `bg-[#808089]` }  px-4 py-2 rounded-md text-white outline-none`}
-                onClick={handleAddUser}
+                <button className={`${id.length !== 0 && IP.length !== 0 ? `bg-[#0A68FF]` : `bg-[#808089]`}  px-4 py-2 rounded-md text-white outline-none`}
+                    onClick={handleAddUser}
                 >Đăng ký</button>
             </div>
         </form >

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { API_URL, SOCKET_URL } from '../../constants';
 
 const LogArea = (props) => {
     const filterValue = props.filterValue;
@@ -11,24 +12,26 @@ const LogArea = (props) => {
     useEffect(() => {
         const fetchHistoryLog = async () => {
             try {
-                const response = await fetch('http://localhost:8080/log-message');
+                const response = await fetch(`${API_URL}/log-message`);
                 const data = await response.json();
                 setMessages(data.reverse());
             } catch (err) {
-                
+
             }
         };
 
         fetchHistoryLog();
 
-        const socket = () => new SockJS('http://localhost:8080/ws');
-        const client = Stomp.over(socket);
+
+        const client = Stomp.over(() => new SockJS(SOCKET_URL));
 
         client.connect({}, () => {
             client.subscribe('/topic/log', (msg) => {
-                console.log(msg.body)
+                // console.log(msg.body)
                 setMessages((prevMessages) => [msg.body, ...prevMessages]);
             });
+        }, (err) => {
+            console.log(err)
         });
 
         return () => {

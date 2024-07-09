@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom';
-import { getAllDocuments } from '../../firebase/Services';
 import { AuthContext } from '../../context/AuthProvider';
+import { API_URL  } from '../../constants';
 const UserList = () => {
     const [users, setUsers] = useState([]);
     const { user } = useContext(AuthContext);
+    console.log(API_URL)
     useEffect(() => {
         const fetchAllUsers = async () => {
-            const userList = await getAllDocuments('users');
-            // console.log(userList)
-            setUsers(userList);
+            const response = await fetch(`${API_URL}/users`);
+            const data = await response.json();
+            setUsers(data)
         }
         fetchAllUsers()
     }, [])
     const isThisUser = (cmpUser) => {
-        return user.uid === cmpUser.uid && user.ip === cmpUser.ip;
+        return user.id === cmpUser.id && user.ip === cmpUser.ip;
     }
     return (
         <div className="rounded-lg bg-white p-4">
@@ -34,7 +35,7 @@ const UserList = () => {
                             // console.log(currentUser === user)
                             <tr key={id} className={`odd:bg-white even:bg-gray-100 hover:bg-gray-200 rounded-sm ${isThisUser(currentUser) && `!bg-[#99d8f7]`}`}>
                                 <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 '>{id + 1}</td>
-                                <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 '>{currentUser.uid}</td>
+                                <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 '>{currentUser.id}</td>
                                 <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 '>{currentUser.ip}</td>
                                 <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 '>{currentUser.createdAt}</td>
                                 {/* <td className='px-6 py-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400'>
