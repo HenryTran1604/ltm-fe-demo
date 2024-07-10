@@ -12,7 +12,7 @@ const LogArea = (props) => {
     useEffect(() => {
         const fetchHistoryLog = async () => {
             try {
-                const response = await fetch(`${API_URL}/log-message`);
+                const response = await fetch(`${API_URL}/client-logs`);
                 const data = await response.json();
                 setMessages(data.reverse());
             } catch (err) {
