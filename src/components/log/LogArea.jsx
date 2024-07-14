@@ -14,7 +14,7 @@ const LogArea = (props) => {
             try {
                 const response = await fetch(`${API_URL}/client-logs`);
                 const data = await response.json();
-                setMessages(data.reverse());
+                setMessages(data.data.reverse());
             } catch (err) {
 
             }

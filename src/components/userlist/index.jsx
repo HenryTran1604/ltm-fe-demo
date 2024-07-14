@@ -10,7 +10,7 @@ const UserList = () => {
         const fetchAllUsers = async () => {
             const response = await fetch(`${API_URL}/users`);
             const data = await response.json();
-            setUsers(data)
+            setUsers(data.data.items)
         }
         fetchAllUsers()
     }, [])

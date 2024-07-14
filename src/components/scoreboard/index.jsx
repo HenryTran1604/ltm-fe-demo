@@ -1,17 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import { API_URL } from '../../constants';
-import UserSubmissions from './UserSubmissions';
+import { Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+import { API_URL, SOCKET_URL } from '../../constants';
+import UserExercises from './UserExercises';
 
 const ScoreBoard = () => {
-    const [users, setUsers] = useState([])
+    const [scoreBoards, setScoreBoards] = useState([])
+    const [exercises, setExercises] = useState([])
     useEffect(() => {
         const fetchAllUsers = async () => {
-            const response = await fetch(`${API_URL}/users`);
+            const response = await fetch(`${API_URL}/scoreboard`);
             const data = await response.json();
-            console.log(data)
-            setUsers(data)
+            console.log(data.data)
+            setScoreBoards(data.data.sort((a, b) => b.score - a.score))
         }
         fetchAllUsers();
+        const socket = () => {
+            return new SockJS(SOCKET_URL);
+        }
+        const client = Stomp.over(socket)
+
+        client.connect({}, () => {
+            client.subscribe('/topic/scoreboard', (msg) => {
+                const sortedScoreBoards = JSON.parse(msg.body).sort((a, b) => b.score - a.score)
+                setScoreBoards(sortedScoreBoards)
+                console.log(sortedScoreBoards)
+            });
+        }, (err) => {
+            console.log(err)
+        });
+
+        return () => {
+            if (client) {
+                client.disconnect();
+            }
+        };
+    }, [])
+
+    useEffect(() => {
+        const fetchAllExercises = async () => {
+            const response = await fetch(`${API_URL}/exercises/all`);
+            const data = await response.json();
+            // console.log(data)
+            setExercises(data.data.items)
+        }
+        fetchAllExercises();
     }, [])
 
     return (
@@ -23,20 +56,20 @@ const ScoreBoard = () => {
                         <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500 ">Mã sinh viên</th>
                         <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500">Score</th>
                         {
-                            Array.from({ length: 4 }).map((_, i) =>
-                                <th key={i} className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {i}</th>
+                            exercises.map((_, id) =>
+                                <th key={id} className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {id}</th>
                             )
                         }
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        users.map((currentUser, id) => (
-                            <UserSubmissions user={currentUser} />
+                        scoreBoards.map((scoreBoard) => (
+                            <UserExercises key={scoreBoard.id} scoreBoard={scoreBoard} exQuantity={exercises.length} />
                         ))
                     }
-
                 </tbody>
+
             </table>
         </div>
     );
