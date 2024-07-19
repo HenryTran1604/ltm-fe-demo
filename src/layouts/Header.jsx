@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { AppContext } from '../context/AppProvider';
 import { AuthContext } from '../context/AuthProvider';
+import { AppContext } from '../context/AppProvider';
 
 const Header = () => {
-    const { IP } = useContext(AppContext);
-    const { user } = useContext(AuthContext);
+    const { isContestOpen } = useContext(AppContext);
+    const { user, IP } = useContext(AuthContext)
     return (
         <header className='z-10 fixed top-0 w-full bg-white'>
             <div className='flex justify-between items-center  shadow-[0px_2px_10px_#00000014] px-10 py-2'>
@@ -13,12 +13,25 @@ const Header = () => {
                     <div className='text-xl font-bold'>
                         Lập trình mạng 2024
                     </div>
-                    <div className='flex ml-10 gap-x-10'>
-                        <Link to={'/'}>Danh sách IP</Link>
-                        <Link to={'/exercises'}>Đề bài</Link>
-                        <Link to={'/scoreboard'}>Bảng xếp hạng</Link>
-                        <Link to={'/log'}>Log</Link>
+                    {
+                        user?.role === 'ROLE_USER' && isContestOpen && <div className='flex ml-10 gap-x-10'>
+                            {/* <Link to={'/app/list'}>Danh sách IP</Link> */}
+                            <Link to={'/app/exercises'}>Đề bài</Link>
+                            <Link to={'/app/scoreboard'}>Kết quả</Link>
+                            <Link to={'/app/log'}>Log</Link>
+                        </div>
+                    }
+                    {
+                        user?.role === 'ROLE_ADMIN' && <div className='flex ml-10 gap-x-10'>
+                        <Link to={'/app/admin/contests'}>Danh sách contests</Link>
+                        <Link to={'/app/admin/users'}>Danh sách người dùng</Link>
+                        <Link to={'/app/admin/exercises'}>Danh sách bài tập</Link>
+                        <Link to={'/app/admin/ranking'}>BXH contest 1</Link>
+                        <Link to={'/app/log'}>Log</Link>
+
                     </div>
+                    }
+
                 </div>
 
                 <div>
@@ -30,14 +43,16 @@ const Header = () => {
                             {IP}
                         </span>
                     </div>
-                    <div>
-                        <span>
-                            Info: 
-                        </span>
-                        <span className='ml-2 float-right font-bold'>
-                            {user.uid?.toUpperCase()}
-                        </span>
-                    </div>
+                    {
+                        user && <div>
+                            <span>
+                                Info:
+                            </span>
+                            <span className='ml-2 float-right font-bold'>
+                                {user.username?.toUpperCase()}
+                            </span>
+                        </div>
+                    }
                 </div>
             </div>
         </header>

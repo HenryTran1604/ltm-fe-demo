@@ -1,15 +1,15 @@
 import React from 'react';
-import Register from '../components/register';
+import Login from '../components/login';
 
-const RegisterPage = () => {
+const LoginPage = () => {
     
     return (
         <div className='h-[100vh]'>
             <div className='h-full flex justify-center items-center'>
-                <Register/>
+                <Login/>
             </div>
         </div>
     );
 };
 
-export default RegisterPage;
+export default LoginPage;

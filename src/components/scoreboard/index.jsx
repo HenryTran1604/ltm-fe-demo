@@ -1,18 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { API_URL, SOCKET_URL } from '../../constants';
 import UserExercises from './UserExercises';
+import { AuthContext } from '../../context/AuthProvider';
 
 const ScoreBoard = () => {
-    const [scoreBoards, setScoreBoards] = useState([])
-    const [exercises, setExercises] = useState([])
+    const [scoreBoard, setScoreBoard] = useState({})
+    const { accessToken, user } = useContext(AuthContext)
     useEffect(() => {
         const fetchAllUsers = async () => {
-            const response = await fetch(`${API_URL}/scoreboard`);
-            const data = await response.json();
-            console.log(data.data)
-            setScoreBoards(data.data.sort((a, b) => b.score - a.score))
+            try {
+                const response = await fetch(`${API_URL}/scoreboard?contestId=1&userId=${user.id}`, {
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data.data)
+                    if (data.status === 200) {
+                        setScoreBoard(data.data)
+                    }
+                }
+            } catch (error) {
+                // hanlde
+            }
+
         }
         fetchAllUsers();
         const socket = () => {
@@ -21,31 +36,20 @@ const ScoreBoard = () => {
         const client = Stomp.over(socket)
 
         client.connect({}, () => {
-            client.subscribe('/topic/scoreboard', (msg) => {
-                const sortedScoreBoards = JSON.parse(msg.body).sort((a, b) => b.score - a.score)
-                setScoreBoards(sortedScoreBoards)
-                console.log(sortedScoreBoards)
+            client.subscribe(`/topic/scoreboard/${user.id}`, (msg) => {
+                const result = JSON.parse(msg.body)
+                setScoreBoard(result.data)
             });
         }, (err) => {
             console.log(err)
         });
 
         return () => {
-            if (client) {
+            if (client && client.connected) {
                 client.disconnect();
             }
         };
-    }, [])
-
-    useEffect(() => {
-        const fetchAllExercises = async () => {
-            const response = await fetch(`${API_URL}/exercises/all`);
-            const data = await response.json();
-            // console.log(data)
-            setExercises(data.data.items)
-        }
-        fetchAllExercises();
-    }, [])
+    }, [accessToken, user.id])
 
     return (
         <div className='bg-white rounded-md p-4'>
@@ -56,18 +60,14 @@ const ScoreBoard = () => {
                         <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500 ">Mã sinh viên</th>
                         <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500">Score</th>
                         {
-                            exercises.map((_, id) =>
-                                <th key={id} className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {id}</th>
+                            scoreBoard?.userExerciseContests?.map((exercise, id) =>
+                                <th key={id} className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {exercise.exerciseContestDto.exerciseDto.alias}</th>
                             )
                         }
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        scoreBoards.map((scoreBoard) => (
-                            <UserExercises key={scoreBoard.id} scoreBoard={scoreBoard} exQuantity={exercises.length} />
-                        ))
-                    }
+                    <UserExercises key={scoreBoard.id} scoreBoard={scoreBoard} />
                 </tbody>
 
             </table>

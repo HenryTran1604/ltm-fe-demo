@@ -1,13 +1,14 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getIP } from '../services/UserServices';
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
-    const [IP, setIP] = useState('Detecting...')
+    const [user, setUser] = useState(null);
+    const [accessToken, setAccessToken] = useState('');
+    const [refreshToken, setRefreshToken] = useState('');
+    const [isLoading, setIsLoading] = useState(true); // Sửa thành true để hiển thị "Loading..." khi ứng dụng khởi động
+    const [IP, setIP] = useState('Detecting...');
 
     useEffect(() => {
         const fetchIP = async () => {
@@ -15,27 +16,28 @@ const AuthProvider = ({ children }) => {
             setIP(userIP);
         }
         fetchIP();
-    }, [])
+    }, []);
 
-    const navigate = useNavigate()
-    // const register = () => {
-
-    // }
+    const loginAuth = (utils) => {
+        setUser(utils.userDto);
+        setAccessToken(utils.accessToken);
+        setRefreshToken(utils.refreshToken);
+        localStorage.setItem('ltm', JSON.stringify(utils));
+    }
 
     useEffect(() => {
-        const foundUser = localStorage.getItem('ltm');
-        if (foundUser) {
-            setUser(JSON.parse(foundUser))
-            setIsLoading(false)
-        } else {
-            setIsLoading(false)
-            navigate('/register')
+        const foundUtils = localStorage.getItem('ltm');
+        if (foundUtils) {
+            const utils = JSON.parse(foundUtils);
+            setUser(utils.userDto);
+            setAccessToken(utils.accessToken);
+            setRefreshToken(utils.refreshToken);
         }
-
-    }, [navigate, IP])
+        setIsLoading(false); // Đặt isLoading thành false sau khi kiểm tra localStorage
+    }, []);
 
     return (
-        <AuthContext.Provider value={{ user }}>
+        <AuthContext.Provider value={{ user, loginAuth, accessToken, refreshToken, IP }}>
             {isLoading ? <div>Loading...</div> : children}
         </AuthContext.Provider>
     );

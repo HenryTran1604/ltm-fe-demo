@@ -6,15 +6,13 @@ import { getIP, validateStudentCode } from '../../services/UserServices';
 import { API_URL } from '../../constants';
 import { AuthContext } from '../../context/AuthProvider';
 
-const Register = () => {
+const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
     const [IP, setIP] = useState('Detecting...')
     const [invalidStudentCode, setInvalidStudentCode] = useState(false)
     const { loginAuth } = useContext(AuthContext)
     const navigate = useNavigate()
-
     useEffect(() => {
         const fetchIP = async () => {
             const userIP = await getIP();
@@ -23,9 +21,9 @@ const Register = () => {
         fetchIP();
     }, [])
 
-    const registerUser = async () => {
+    const login = async () => {
         try {
-            const response = await fetch(`${API_URL}/auth/register`, {
+            const response = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -37,49 +35,42 @@ const Register = () => {
                 })
             });
 
-            const responseJson = await response.json()
+            const result = await response.json()
             if (!response.ok) {
-                toast.error(responseJson.message, {
+                toast.error(result.message, {
                     autoClose: 2000
                 })
             } else {
-                if (responseJson.status === 201) {
-
-                    toast.success("Đăng kí thành công!", {
+                if (result.status === 200) {
+                    toast.success("Đăng nhập thành công!", {
                         autoClose: 2000
                     })
-                    loginAuth(responseJson.data)
-                    if (responseJson.data.userDto.role === 'ROLE_USER')
-                        navigate("/list")
-                    else navigate("/admin/contests")
+                    loginAuth(result.data)
+                    if (result.data.userDto.role === 'ROLE_USER')
+                        navigate("/app/exercises")
+                    else navigate("/app/admin/contests")
                 } else {
-                    toast.error(responseJson.message, {
+                    toast.error(result.message, {
                         autoClose: 2000
                     })
                 }
 
             }
-        } catch(error) {
+        } catch (error) {
             // handle
         }
-        
-    }
 
-    const handleAddUser = (e) => {
+    }
+    const handleLoginUser = (e) => {
         e.preventDefault();
         if (IP === 'Detecting...') {
             toast.error('Vui lòng chờ detect IP!', {
                 autoClose: 2000
             })
         }
-        else if (password !== confirmPassword) {
-            toast.error('Hai mật khẩu không khớp!', {
-                autoClose: 2000
-            })
-        }
         else if (validateStudentCode(username)) {
             if (username !== '' && IP !== '' && password !== '') {
-                registerUser()
+                login()
                 setInvalidStudentCode(false);
             }
         } else {
@@ -113,16 +104,6 @@ const Register = () => {
                         placeholder='Nhập mật khẩu' required onChange={(e) => setPassword(e.target.value)} />
                 </div>
             </div>
-            <div className='flex items-center gap-x-4 mt-6'>
-                <div className='w-10 bg-white'>
-                    <img src="/static/images/icons/confirmPassword.png" alt="" />
-                </div>
-                <div className='flex-1 '>
-                    <input type="password" className='w-full px-4 py-2 rounded-md border-2 border-black border-solid outline-none focus:border-[#0A68FF]'
-                        placeholder='Xác nhận lại mật khẩu' required onChange={(e) => setConfirmPassword(e.target.value)} />
-                </div>
-            </div>
-
             <div className='flex items-center gap-x-4 mt-8'>
                 <div className='w-10 bg-white ro'>
                     <img src="/static/images/icons/ip-address.png" alt="" />
@@ -133,13 +114,13 @@ const Register = () => {
                 </div>
             </div>
             <div className='flex justify-between items-center mt-8'>
-                <Link to={`/login`}>Đăng nhập</Link>
+                <Link to={`/register`}>Đăng ký</Link>
                 <button className={`${username?.length !== 0 && IP?.length !== 0 ? `bg-[#0A68FF]` : `bg-[#808089]`}  px-4 py-2 rounded-md text-white outline-none`}
-                    onClick={handleAddUser}
-                >Đăng ký</button>
+                    onClick={handleLoginUser}
+                >Đăng nhập</button>
             </div>
         </form >
     );
 };
 
-export default Register;
+export default Login;

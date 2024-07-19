@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const Exercise = (props) => {
-    const exName = props.exName;
-    const [fileContent, setFileContent] = useState({})
-    useEffect(() => {
-        console.log(exName)
-        fetch(`/static/exercises/${exName}`)
-            .then(response => response.json())
-            .then(data => {
-                // console.log(data);
-                setFileContent(data)
-            })
-            .catch(err => console.log('cannot find exercise!'))
-    }, [exName])
+    const exercise = props.exercise;
+    
     return (
         <div className='flex items-center px-6 py-8'>
             <div className='rounded-md bg-white px-6 py-4 w-full'>
-                <div className='text-xl font-bold'>{fileContent.name}</div>
+                <div className='text-xl font-bold'>{exercise.exerciseContestDto.exerciseDto.alias}</div>
                 <div className='text-lg whitespace-pre-line leading-10'>
-                    {fileContent.content}
+                    {
+                        exercise.exerciseContestDto.exerciseDto.content.split('\\n').map((e, id) => <p key={id}>{e}</p>)
+                    }   
+                </div>
+                <div>
+                    Status: {exercise.ac ? "Completed" : "Nope"}
+                    {
+                        console.log(exercise.ac)
+                    }
                 </div>
             </div>
         </div>
