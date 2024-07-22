@@ -12,15 +12,19 @@ const LogArea = (props) => {
 
     useEffect(() => {
         const fetchHistoryLog = async () => {
-            const response = await fetch(`${API_URL}/client-logs`, {
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json"
+            try {
+                const response = await fetch(`${API_URL}/client-logs`, {
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setMessages(data.data.items.reverse());
                 }
-            });
-            if(response.ok) {
-                const data = await response.json();
-                setMessages(data.data.items.reverse());
+            } catch(error) {
+                // handle
             }
             
         };

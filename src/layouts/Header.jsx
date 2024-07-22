@@ -16,20 +16,19 @@ const Header = () => {
                     {
                         user?.role === 'ROLE_USER' && isContestOpen && <div className='flex ml-10 gap-x-10'>
                             {/* <Link to={'/app/list'}>Danh sách IP</Link> */}
-                            <Link to={'/app/exercises'}>Đề bài</Link>
-                            <Link to={'/app/scoreboard'}>Kết quả</Link>
+                            <Link to={'/app/contests'}>Cuộc thi</Link>
                             <Link to={'/app/log'}>Log</Link>
+
                         </div>
                     }
                     {
                         user?.role === 'ROLE_ADMIN' && <div className='flex ml-10 gap-x-10'>
-                        <Link to={'/app/admin/contests'}>Danh sách contests</Link>
-                        <Link to={'/app/admin/users'}>Danh sách người dùng</Link>
-                        <Link to={'/app/admin/exercises'}>Danh sách bài tập</Link>
-                        <Link to={'/app/admin/ranking'}>BXH contest 1</Link>
-                        <Link to={'/app/log'}>Log</Link>
+                            <Link to={'/app/admin/contests  '}>Danh sách contests</Link>
+                            <Link to={'/app/admin/users'}>Danh sách người dùng</Link>
+                            <Link to={'/app/admin/exercises'}>Danh sách bài tập</Link>
+                            <Link to={'/app/log'}>Log</Link>
 
-                    </div>
+                        </div>
                     }
 
                 </div>

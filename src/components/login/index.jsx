@@ -46,8 +46,8 @@ const Login = () => {
                         autoClose: 2000
                     })
                     loginAuth(result.data)
-                    if (result.data.userDto.role === 'ROLE_USER')
-                        navigate("/app/exercises")
+                    if (result.data.user.role === 'ROLE_USER')
+                        navigate("/app/contests")
                     else navigate("/app/admin/contests")
                 } else {
                     toast.error(result.message, {

@@ -36,6 +36,7 @@ const AdminUserList = () => {
                 <thead>
                     <tr>
                         <th class="border px-4 py-2 text-center bg-gray-100">STT</th>
+                        <th class="border px-4 py-2 bg-gray-100">UID</th>
                         <th class="border px-4 py-2 bg-gray-100">Mã Sinh Viên</th>
                         <th class="border px-4 py-2 bg-gray-100">IP</th>
                         <th class="border px-4 py-2 bg-gray-100">Thời gian đăng ký</th>
@@ -45,7 +46,9 @@ const AdminUserList = () => {
                 <tbody>
                     {
                         users.map((user, id) => (
-                            <tr class="even:bg-gray-50 hover:bg-gray-200">
+                            <tr key={id} class="even:bg-gray-50 hover:bg-gray-200">
+
+                                <td class="border px-4 py-2 text-center">{id}</td>
                                 <td class="border px-4 py-2 text-center">{user.id}</td>
                                 <td class="border px-4 py-2">{user.username}</td>
                                 <td class="border px-4 py-2">{user.ip}</td>

@@ -1,9 +1,9 @@
 export const getIP = () => {
-    return fetch('https://geolocation-db.com/json/')
+    return fetch('https://api.ipify.org/?format=json')
         .then(response => response.json())
         .then(data => {
             // console.log(data.IPv4)
-            return data.IPv4
+            return data.ip
         }
         )
         .catch(err => {

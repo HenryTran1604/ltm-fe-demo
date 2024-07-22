@@ -49,8 +49,8 @@ const Register = () => {
                         autoClose: 2000
                     })
                     loginAuth(responseJson.data)
-                    if (responseJson.data.userDto.role === 'ROLE_USER')
-                        navigate("/list")
+                    if (responseJson.data.user.role === 'ROLE_USER')
+                        navigate("/app/exercises")
                     else navigate("/admin/contests")
                 } else {
                     toast.error(responseJson.message, {

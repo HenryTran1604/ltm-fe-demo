@@ -4,14 +4,17 @@ import SockJS from 'sockjs-client';
 import { API_URL, SOCKET_URL } from '../../constants';
 import UserExercises from './UserExercises';
 import { AuthContext } from '../../context/AuthProvider';
+import { useParams } from 'react-router-dom';
 
 const ScoreBoard = () => {
+    const { contestId } = useParams()
+    console.log(contestId)
     const [scoreBoard, setScoreBoard] = useState({})
     const { accessToken, user } = useContext(AuthContext)
     useEffect(() => {
         const fetchAllUsers = async () => {
             try {
-                const response = await fetch(`${API_URL}/scoreboard?contestId=1&userId=${user.id}`, {
+                const response = await fetch(`${API_URL}/scoreboard?contestId=${contestId}&userId=${user.id}`, {
                     headers: {
                         "Authorization": `Bearer ${accessToken}`,
                         "Content-Type": "application/json"
@@ -61,7 +64,7 @@ const ScoreBoard = () => {
                         <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500">Score</th>
                         {
                             scoreBoard?.userExerciseContests?.map((exercise, id) =>
-                                <th key={id} className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {exercise.exerciseContestDto.exerciseDto.alias}</th>
+                                <th key={id} className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {exercise.alias}</th>
                             )
                         }
                     </tr>

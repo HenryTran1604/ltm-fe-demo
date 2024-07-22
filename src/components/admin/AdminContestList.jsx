@@ -17,7 +17,6 @@ const AdminContestList = () => {
                 });
                 if (response.ok) {
                     const result = await response.json();
-                    console.log(result)
                     if (result.status === 200) {
                         setContests(result.data);
                     }
@@ -69,8 +68,8 @@ const AdminContestList = () => {
                                     <td className="border px-4 py-2">{contest.startTime}</td>
                                     <td className="border px-4 py-2">{contest.endTime}</td>
                                     <td className="border px-4 py-2 flex justify-around">
-                                        <Link to={`/app/admin/contests/manage`} className='bg-blue-400 px-4 py-1 rounded-md'>Xem</Link>
-                                        <Link to={`/app/admin/contests/detail/${contest.id}`} className='bg-green-500 px-4 py-1 rounded-md'>Sửa</Link>
+                                        <Link to={`/app/admin/contests/${contest.id}/detail`} className='bg-blue-400 px-4 py-1 rounded-md'>Xem</Link>
+                                        <Link to={`/app/admin/contests/${contest.id}/edit`} className='bg-green-500 px-4 py-1 rounded-md'>Sửa</Link>
                                     </td>
                                 </tr>
                             ))

@@ -5,10 +5,10 @@ import { AuthContext } from '../../context/AuthProvider';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const AdminEditContest = () => {
-    const { id } = useParams();
+    const { contestId } = useParams();
 
-    const endpoint = `${API_URL}/contests/${id ?  `update?id=${id}` : `add`}`;
-    const method = id ? 'PUT' : 'POST';
+    const endpoint = `${API_URL}/contests/${contestId ?  `update?id=${contestId}` : `add`}`;
+    const method = contestId ? 'PUT' : 'POST';
 
     const [contest, setContest] = useState({
         title: '',
@@ -20,16 +20,15 @@ const AdminEditContest = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (id) {
+        if (contestId) {
             const fetchContest = async () => {
                 try {
-                    const response = await fetch(`${API_URL}/contests/detail/${id}`, {
+                    const response = await fetch(`${API_URL}/contests/detail/${contestId}`, {
                         headers: {
                             "Authorization": `Bearer ${accessToken}`,
                             "Content-Type": "application/json"
                         }
                     });
-                    console.log(response)
                     if (response.ok) {
                         const result = await response.json();
                         if (result.status === 200) {
@@ -43,7 +42,7 @@ const AdminEditContest = () => {
             fetchContest()
 
         }
-    }, [accessToken, id])
+    }, [accessToken, contestId])
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -52,10 +51,6 @@ const AdminEditContest = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Tạo định dạng thời gian ISO string
-        contest.startTime = new Date(contest.startTime).toISOString();
-        contest.endTimeISO = new Date(contest.endTime).toISOString();
 
         try {
             const response = await fetch(endpoint, {
@@ -69,12 +64,12 @@ const AdminEditContest = () => {
 
             if (response.ok) {
                 const result = await response.json();
-                if (!id && result.status === 201) {
+                if (!contestId && result.status === 201) {
                     toast.success("Thêm contest thành công!", {
                         autoClose: 2000
                     })
                     navigate(`/app/admin/contests`)
-                } else if(id && result.status === 200)  {
+                } else if(contestId && result.status === 200)  {
                     toast.success("Cập nhật contest thành công!", {
                         autoClose: 2000
                     })
@@ -99,13 +94,13 @@ const AdminEditContest = () => {
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md mx-auto">
-            <h2 className="text-2xl font-bold mb-4">{id ? `Cập nhật` : `Thêm Contest`}</h2>
+            <h2 className="text-2xl font-bold mb-4">{contestId ? `Cập nhật` : `Thêm Contest`}</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label htmlFor="title" className="block text-gray-700 text-sm font-semibold mb-2">Tên Contest</label>
                     <input
                         type="text"
-                        id="title"
+                        contestId="title"
                         name="title"
                         value={contest.title}
                         onChange={handleChange}
@@ -141,7 +136,7 @@ const AdminEditContest = () => {
                     type="submit"
                     className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
-                    {id ? `Cập nhật` : `Thêm Contest`}
+                    {contestId ? `Cập nhật` : `Thêm Contest`}
                 </button>
             </form>
         </div>

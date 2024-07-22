@@ -1,32 +1,36 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { API_URL } from '../../constants';
+import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthProvider';
+import { API_URL } from '../../constants';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
 
 const AdminManageContest = () => {
+    const { contestId } = useParams()
     const [exercises, setExercises] = useState([]);
     const [users, setUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
     const { accessToken } = useContext(AuthContext);
-    const contestId = 1;
 
     useEffect(() => {
         const fetchExercises = async () => {
-            const response = await fetch(`${API_URL}/exercises/all`, {
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json"
+            try {
+                const response = await fetch(`${API_URL}/exercises/all`, {
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.status === 200) {
+                        setExercises(result.data.items);
+                    }
                 }
-            });
-            if (response.ok) {
-                const result = await response.json();
-                console.log(result);
-                if (result.status === 200) {
-                    setExercises(result.data.items);
-                }
+            } catch(error) {
+
             }
+            
         };
         fetchExercises();
     }, [accessToken]);
@@ -66,21 +70,37 @@ const AdminManageContest = () => {
     };
 
     const handleAddUsers = async () => {
-        const response = await fetch(`${API_URL}/user-contest/add-all`, {
-            method: 'POST',
-            headers: {
-                "Authorization": `Bearer ${accessToken}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                contestId: contestId,
-                userIds: selectedUsers
-            })
-        });
-        if (response.ok) {
-            console.log("Users added successfully");
-        } else {
-            console.error("Failed to add users");
+        try {
+
+            const response = await fetch(`${API_URL}/user-contest/add-all`, {
+                method: 'POST',
+                headers: {
+                    "Authorization": `Bearer ${accessToken}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    contestId: contestId,
+                    userIds: selectedUsers
+                })
+            });
+            const result = await response.json();
+            if (response.ok) {
+                if (result.status === 200) {
+                    toast.success("Thêm người dùng thành công", {
+                        autoClose: 2000
+                    })
+                } else {
+                    toast.error(result.message, {
+                        autoClose: 2000
+                    })
+                }
+            } else {
+                toast.error(result.message, {
+                    autoClose: 2000
+                })
+            }
+        } catch (error) {
+            //
         }
     };
 
@@ -97,33 +117,10 @@ const AdminManageContest = () => {
                     exerciseIds: selectedExercises
                 })
             });
-            if (response.ok) {
-                console.log("Exercises added successfully");
-            } else {
-                console.error("Failed to add exercises");
-            }
-        } catch (error) {
-
-            // handle
-        }
-
-    };
-
-    const handleAssignExerciseToUser = async () => {
-        try {
-            const response = await fetch(`${API_URL}/contests/assign?id=${contestId}`, {
-                method: 'POST',
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json"
-                }
-            });
             const result = await response.json();
-            console.log(result)
             if (response.ok) {
-
                 if (result.status === 200) {
-                    toast.success("Tạo đề thành công", {
+                    toast.success("Thêm bài tập thành công", {
                         autoClose: 2000
                     })
                 } else {
@@ -132,15 +129,17 @@ const AdminManageContest = () => {
                     })
                 }
             } else {
-                toast.error("Đã có lỗi xảy ra", {
+                toast.error(result.message, {
                     autoClose: 2000
                 })
             }
-        } catch(error) {
-            // hanlde
+        } catch (error) {
+
+            // handle
         }
-        
-    }
+
+    };
+
     const handleSelectAllUsers = () => {
         if (selectedUsers.length === users.length) {
             setSelectedUsers([]);
@@ -161,14 +160,7 @@ const AdminManageContest = () => {
         <div className='bg-white'>
             <div className='relative'>
 
-                <h1 className="text-2xl font-bold mx-5 pt-5">Thêm người dùng vào contest 1</h1>
-                <div className='absolute top-4 right-2'>
-                    <Link to={'/admin/contests/detail/1'} className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'>Chi tiết</Link>
-                    <button className='ml-2 mr-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700'
-                        onClick={handleAssignExerciseToUser}>
-                        Tạo đề
-                    </button>
-                </div>
+                <h1 className="text-2xl font-bold mx-5 pt-5">Thêm người dùng và bài tập vào contest {contestId}</h1>
 
             </div>
             <div className="flex justify-between shadow-lg p-5 rounded-lg">
@@ -234,9 +226,9 @@ const AdminManageContest = () => {
                                             onChange={() => handleExerciseSelect(exercise.id)}
                                         />
                                     </td>
-                                    <td className="border px-4 py-2">{id}</td>
+                                    <td className="border px-4 py-2">{exercise.id}</td>
                                     <td className="border px-4 py-2">{exercise.name}</td>
-                                    <td className="border px-4 py-2">{exercise.alias}</td>
+                                    <td className="border px-4 py-2">{exercise.aliases.map(alias => alias.code).join(', ')}</td>
                                     <td className="border px-4 py-2">{exercise.topic.name}</td>
                                 </tr>
                             ))}

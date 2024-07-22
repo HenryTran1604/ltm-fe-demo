@@ -15,21 +15,26 @@ const AppProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchContest = async () => {
-            if (accessToken) {
-                const response = await fetch(`${API_URL}/contests/detail/${contestId}`, {
-                    headers: {
-                        "Authorization": `Bearer ${accessToken}`,
-                        "Content-Type": "application/json"
-                    }
-                });
-                console.log(response.ok)
-                if (response.ok) {
-                    const responseJson = await response.json();
-                    if (responseJson.status === 200) {
-                        setStartTime(new Date(responseJson.data.startTime));
+            try {
+                if (accessToken) {
+                    const response = await fetch(`${API_URL}/contests/detail/${contestId}`, {
+                        headers: {
+                            "Authorization": `Bearer ${accessToken}`,
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    console.log(response.ok)
+                    if (response.ok) {
+                        const responseJson = await response.json();
+                        if (responseJson.status === 200) {
+                            setStartTime(new Date(responseJson.data.startTime));
+                        }
                     }
                 }
+            } catch(error) {
+                // handle
             }
+            
         };
         fetchContest();
     }, [accessToken, contestId]);
@@ -52,7 +57,8 @@ const AppProvider = ({ children }) => {
 
     return (
         <AppContext.Provider value={{ isContestOpen, startTime }}>
-            {!user || user?.role === 'ROLE_ADMIN' || isContestOpen ? children : <WaitingPage/>}
+            {/* {!user || user?.role === 'ROLE_ADMIN' || isContestOpen ? children : <WaitingPage />} */}
+            { children }
         </AppContext.Provider>
     );
 };
