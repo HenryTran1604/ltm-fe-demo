@@ -68,12 +68,12 @@ const AdminEditContest = () => {
                     toast.success("Thêm contest thành công!", {
                         autoClose: 2000
                     })
-                    navigate(`/app/admin/contests`)
+                    navigate(`/admin/contests`)
                 } else if(contestId && result.status === 200)  {
                     toast.success("Cập nhật contest thành công!", {
                         autoClose: 2000
                     })
-                    navigate(`/app/admin/contests`)
+                    navigate(`/admin/contests`)
                 }
                 else {
                     toast.error(result.message, {

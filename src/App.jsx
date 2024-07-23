@@ -29,30 +29,32 @@ function App() {
       <AuthProvider>
         <AppProvider>
           <Routes>
-            <Route path='/app/' element={<PrivateRoute />}>
+            <Route path='/' element={<PrivateRoute />}>
               <Route path='contest/:contestId/exercises' element={<ExercisesPage />} />
               <Route path='scoreboard/:contestId' element={<ScoreBoardPage />} />
               <Route path='log' element={<LogPage />} />
               <Route path='contests' element={<ContestListPage />} />
+              <Route path='/admin/' element={<AdminRoute />}>
+                <Route path='contests' element={<AdminContestListPage />} />
+                <Route path='contests/add' element={<AdminEditContestPage />} />
+                <Route path='contests/:contestId/edit' element={<AdminEditContestPage />} />
+                <Route path='contests/:contestId/detail' element={<AdminContestDetailPage />} />
+                <Route path='contests/:contestId/manage' element={<AdminManageContestPage />} />
+                <Route path='contests/:contestId/ranking' element={<AdminRankingPage />} />
+                <Route path='users' element={<AdminUserListPage />} />
+                <Route path='exercises' element={<AdminExerciseListPage />} />
+                <Route path='exercises/add' element={<AdminEditExercisePage />} />
+                <Route path='exercises/:exerciseId/detail' element={<AdminEditExercisePage />} />
+              </Route>
+              <Route path='/*' element={<NotFoundPage />} />
+
             </Route>
-            <Route path='/app/admin/' element={<AdminRoute />}>
-              <Route path='contests' element={<AdminContestListPage />} />
-              <Route path='contests/add' element={<AdminEditContestPage />} />
-              <Route path='contests/:contestId/edit' element={<AdminEditContestPage />} />
-              <Route path='contests/:contestId/detail' element={<AdminContestDetailPage />} />
-              <Route path='contests/:contestId/manage' element={<AdminManageContestPage />} />
-              <Route path='contests/:contestId/ranking' element={<AdminRankingPage />} />
-              <Route path='users' element={<AdminUserListPage />} />
-              <Route path='exercises' element={<AdminExerciseListPage />} />
-              <Route path='exercises/add' element={<AdminEditExercisePage />} />
-              <Route path='exercises/:exerciseId/detail' element={<AdminEditExercisePage />} />
-            </Route>
-            <Route path='/' element={<PublicRoute/>} >
+
+            <Route path='/' element={<PublicRoute />} >
               <Route path='/register' element={<RegisterPage />} />
               <Route path='/login' element={<LoginPage />} />
             </Route>
-            
-            <Route path='/*' element={<NotFoundPage />} />
+
           </Routes>
 
         </AppProvider>

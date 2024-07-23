@@ -148,7 +148,7 @@ const AdminEditExercise = () => {
                     toast.success("Cập nhật bài tập thành công!", {
                         autoClose: 2000
                     })
-                    navigate('/app/admin/exercises')
+                    navigate('/admin/exercises')
                 }
                 else {
                     toast.error(result.message, {

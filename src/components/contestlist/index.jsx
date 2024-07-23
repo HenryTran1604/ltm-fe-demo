@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthProvider';
 import { API_URL } from '../../constants';
 import { toast } from 'react-toastify';
@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 const ContestList = () => {
     const [userContests, setUserContests] = useState([])
     const { accessToken, user } = useContext(AuthContext)
-    const navigate = useNavigate()
     useEffect(() => {
         const fetchContests = async () => {
             try {
@@ -30,7 +29,7 @@ const ContestList = () => {
 
         };
         fetchContests()
-    }, [accessToken])
+    }, [accessToken, user.id])
 
     const handleRegisterContest = async (contestId) => {
         try {
@@ -71,7 +70,7 @@ const ContestList = () => {
             return <button className='bg-gray-400 px-4 py-1 rounded-md'>Over</button>
         } else if (now > startTime) {
             if (userContest.registered) {
-                return <Link to={`/app/contest/${userContest.contest.id}/exercises`} className='bg-green-400 px-4 py-1 rounded-md'>Vào thi</Link>
+                return <Link to={`/contest/${userContest.contest.id}/exercises`} className='bg-green-400 px-4 py-1 rounded-md'>Vào thi</Link>
             } else {
                 return <button className='bg-green-400 px-4 py-1 rounded-md cursor-not-allowed'>Đang diễn ra</button>
             }

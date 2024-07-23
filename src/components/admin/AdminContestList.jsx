@@ -39,7 +39,7 @@ const AdminContestList = () => {
             <div className='relative'>
                 <h1 className="text-2xl font-bold mx-5 pt-5">Danh sách contest</h1>
                 <div className='absolute top-4 right-2'>
-                    <Link to={'/app/admin/contests/add'} className='ml-2 mr-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700'
+                    <Link to={'/admin/contests/add'} className='ml-2 mr-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700'
                         onClick={handleAddContest}>
                         Thêm contest
                     </Link>
@@ -68,8 +68,8 @@ const AdminContestList = () => {
                                     <td className="border px-4 py-2">{contest.startTime}</td>
                                     <td className="border px-4 py-2">{contest.endTime}</td>
                                     <td className="border px-4 py-2 flex justify-around">
-                                        <Link to={`/app/admin/contests/${contest.id}/detail`} className='bg-blue-400 px-4 py-1 rounded-md'>Xem</Link>
-                                        <Link to={`/app/admin/contests/${contest.id}/edit`} className='bg-green-500 px-4 py-1 rounded-md'>Sửa</Link>
+                                        <Link to={`/admin/contests/${contest.id}/detail`} className='bg-blue-400 px-4 py-1 rounded-md'>Xem</Link>
+                                        <Link to={`/admin/contests/${contest.id}/edit`} className='bg-green-500 px-4 py-1 rounded-md'>Sửa</Link>
                                     </td>
                                 </tr>
                             ))

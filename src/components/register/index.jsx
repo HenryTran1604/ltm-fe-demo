@@ -50,7 +50,7 @@ const Register = () => {
                     })
                     loginAuth(responseJson.data)
                     if (responseJson.data.user.role === 'ROLE_USER')
-                        navigate("/app/exercises")
+                        navigate("/contests")
                     else navigate("/admin/contests")
                 } else {
                     toast.error(responseJson.message, {

@@ -8,7 +8,6 @@ import { useParams } from 'react-router-dom';
 
 const ScoreBoard = () => {
     const { contestId } = useParams()
-    console.log(contestId)
     const [scoreBoard, setScoreBoard] = useState({})
     const { accessToken, user } = useContext(AuthContext)
     useEffect(() => {
@@ -22,7 +21,6 @@ const ScoreBoard = () => {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data.data)
                     if (data.status === 200) {
                         setScoreBoard(data.data)
                     }
@@ -41,7 +39,7 @@ const ScoreBoard = () => {
         client.connect({}, () => {
             client.subscribe(`/topic/scoreboard/${user.id}`, (msg) => {
                 const result = JSON.parse(msg.body)
-                setScoreBoard(result.data)
+                setScoreBoard(result)
             });
         }, (err) => {
             console.log(err)
@@ -52,7 +50,7 @@ const ScoreBoard = () => {
                 client.disconnect();
             }
         };
-    }, [accessToken, user.id])
+    }, [accessToken, user.id, contestId])
 
     return (
         <div className='bg-white rounded-md p-4'>

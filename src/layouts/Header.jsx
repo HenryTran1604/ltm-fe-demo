@@ -15,18 +15,18 @@ const Header = () => {
                     </div>
                     {
                         user?.role === 'ROLE_USER' && isContestOpen && <div className='flex ml-10 gap-x-10'>
-                            {/* <Link to={'/app/list'}>Danh sách IP</Link> */}
-                            <Link to={'/app/contests'}>Cuộc thi</Link>
-                            <Link to={'/app/log'}>Log</Link>
+                            {/* <Link to={'/list'}>Danh sách IP</Link> */}
+                            <Link to={'/contests'}>Cuộc thi</Link>
+                            <Link to={'/log'}>Log</Link>
 
                         </div>
                     }
                     {
                         user?.role === 'ROLE_ADMIN' && <div className='flex ml-10 gap-x-10'>
-                            <Link to={'/app/admin/contests  '}>Danh sách contests</Link>
-                            <Link to={'/app/admin/users'}>Danh sách người dùng</Link>
-                            <Link to={'/app/admin/exercises'}>Danh sách bài tập</Link>
-                            <Link to={'/app/log'}>Log</Link>
+                            <Link to={'/admin/contests  '}>Danh sách contests</Link>
+                            <Link to={'/admin/users'}>Danh sách người dùng</Link>
+                            <Link to={'/admin/exercises'}>Danh sách bài tập</Link>
+                            <Link to={'/log'}>Log</Link>
 
                         </div>
                     }

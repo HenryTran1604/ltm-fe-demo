@@ -32,7 +32,7 @@ const AdminContestDetail = () => {
             
         };
         fetchExercises();
-    }, [accessToken]);
+    }, [accessToken, contestId]);
 
     useEffect(() => {
         const fetchAllUsers = async () => {
@@ -51,7 +51,7 @@ const AdminContestDetail = () => {
             }
         };
         fetchAllUsers();
-    }, [accessToken]);
+    }, [accessToken, contestId]);
 
     const handleAssignExerciseToUser = async () => {
         try {
@@ -90,8 +90,8 @@ const AdminContestDetail = () => {
 
                 <h1 className="text-2xl font-bold mx-5 pt-5">Danh sách đã tham gia contest {contestId}</h1>
                 <div className='absolute top-4 right-2'>
-                    <Link to={`/app/admin/contests/${contestId}/manage`} className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'>Chỉnh sửa</Link>
-                    <Link to={`/app/admin/contests/${contestId}/ranking`} className='ml-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'>Chi tiết</Link>
+                    <Link to={`/admin/contests/${contestId}/manage`} className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'>Chỉnh sửa</Link>
+                    <Link to={`/admin/contests/${contestId}/ranking`} className='ml-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'>Chi tiết</Link>
                     <button className='ml-2 mr-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700'
                         onClick={handleAssignExerciseToUser}>
                         Tạo đề
