@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { API_URL } from '../../constants';
+import { API_URL } from '../../constants/endpoints';
 import { AuthContext } from '../../context/AuthProvider';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -16,7 +16,6 @@ const AdminEditExercise = () => {
         name: '',
         content: '',
         createdAt: '',
-        aliases: [],
         topicId: ''
     });
     const [topic, setTopic] = useState({
@@ -89,28 +88,6 @@ const AdminEditExercise = () => {
         setExercise(prevExercise => ({ ...prevExercise, [name]: value }));
     };
 
-    // Hàm để thay đổi alias dựa trên chỉ số
-    const handleAliasChange = (index, value) => {
-        setExercise(prevExercise => {
-            const newAliases = [...prevExercise.aliases];
-            newAliases[index] = { ...newAliases[index], code: value };
-            return { ...prevExercise, aliases: newAliases };
-        });
-    };
-
-    const handleAddAlias = () => {
-        setExercise(prevExercise => ({
-            ...prevExercise,
-            aliases: [...prevExercise.aliases, { id: null, code: '' }]
-        }));
-    };
-
-    const handleRemoveAlias = (index) => {
-        setExercise(prevExercise => ({
-            ...prevExercise,
-            aliases: prevExercise.aliases.filter((_, i) => i !== index)
-        }));
-    };
 
     const handleTopicChange = (event) => {
         const { name, value } = event.target;
@@ -141,7 +118,6 @@ const AdminEditExercise = () => {
                         name: '',
                         content: '',
                         createdAt: '',
-                        aliases: [],
                         topicId: ''
                     })
                 } else if (exerciseId && result.status === 200) {
@@ -238,35 +214,6 @@ const AdminEditExercise = () => {
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 required
                             />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="aliases" className="block text-gray-700 text-sm font-semibold mb-2">Aliases</label>
-                            {exercise?.aliases.map((alias, index) => (
-                                <div key={index} className="flex items-center mb-2">
-                                    <input
-                                        type="text"
-                                        name="aliases"
-                                        value={alias.code}
-                                        onChange={(e) => handleAliasChange(index, e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                        required
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemoveAlias(index)}
-                                        className="ml-2 bg-red-500 text-white px-3 py-1 rounded-md"
-                                    >
-                                        Xóa
-                                    </button>
-                                </div>
-                            ))}
-                            <button
-                                type="button"
-                                onClick={handleAddAlias}
-                                className="mt-2 bg-blue-500 text-white px-3 py-1 rounded-md"
-                            >
-                                Thêm Alias
-                            </button>
                         </div>
                         <div className="mb-4">
                             <label htmlFor="topicId" className="block text-gray-700 text-sm font-semibold mb-2">Chủ Đề</label>

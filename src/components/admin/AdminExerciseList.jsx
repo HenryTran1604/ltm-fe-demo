@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
-import { API_URL } from '../../constants';
+import { API_URL } from '../../constants/endpoints';
 import { Link } from 'react-router-dom';
 
 const AdminExerciseList = () => {
@@ -43,7 +43,6 @@ const AdminExerciseList = () => {
                     <tr>
                         <th className="border px-4 py-2 text-center bg-gray-100">STT</th>
                         <th className="border px-4 py-2 bg-gray-100">Tên bài tập</th>
-                        <th className="border px-4 py-2 bg-gray-100">Alias</th>
                         <th className="border px-4 py-2 bg-gray-100">Chủ đề</th>
                         <th className="border px-4 py-2 bg-gray-100">Action</th>
                     </tr>
@@ -54,7 +53,6 @@ const AdminExerciseList = () => {
                             <tr className="even:bg-gray-50 hover:bg-gray-200">
                                 <td className="border px-4 py-2 text-center">{exercise.id}</td>
                                 <td className="border px-4 py-2">{exercise.name}</td>
-                                <td className="border px-4 py-2">{ exercise.aliases.map(alias => alias.code).join(', ')}</td>
                                 <td className="border px-4 py-2">{exercise.topic.name}</td>
                                 <td className="border px-4 py-2 flex justify-evenly">
                                     <Link to={`/admin/exercises/${exercise.id}/detail`} className='bg-green-500 px-4 py-1 rounded-md'>Sửa</Link>

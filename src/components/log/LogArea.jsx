@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { API_URL, SOCKET_URL } from '../../constants';
 import { AuthContext } from '../../context/AuthProvider';
+import { API_URL, SOCKET_URL } from '../../constants/endpoints';
 
 const LogArea = (props) => {
     const filterValue = props.filterValue;

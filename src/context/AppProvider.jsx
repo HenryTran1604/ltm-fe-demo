@@ -1,8 +1,7 @@
 // AppProvider.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { API_URL } from '../constants';
-import WaitingPage from '../pages/WaitingPage';
 import { AuthContext } from './AuthProvider'; // Đảm bảo import đúng AuthProvider
+import { API_URL } from '../constants/endpoints';
 
 export const AppContext = createContext();
 
@@ -11,7 +10,7 @@ const AppProvider = ({ children }) => {
     const [isContestOpen, setIsContestOpen] = useState(false);
     const contestId = 1;
 
-    const { user, accessToken } = useContext(AuthContext); // Sử dụng AuthContext
+    const { accessToken } = useContext(AuthContext); // Sử dụng AuthContext
 
     useEffect(() => {
         const fetchContest = async () => {

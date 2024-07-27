@@ -14,8 +14,8 @@ const Header = () => {
                         Lập trình mạng 2024
                     </div>
                     {
-                        user?.role === 'ROLE_USER' && isContestOpen && <div className='flex ml-10 gap-x-10'>
-                            {/* <Link to={'/list'}>Danh sách IP</Link> */}
+                        user?.role === 'ROLE_USER' && <div className='flex ml-10 gap-x-10'>
+                            <Link to={'/practice/exercises'}>Luyện tập</Link>
                             <Link to={'/contests'}>Cuộc thi</Link>
                             <Link to={'/log'}>Log</Link>
 

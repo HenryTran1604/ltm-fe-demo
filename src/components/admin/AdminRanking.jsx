@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { API_URL } from '../../constants';
+import { API_URL } from '../../constants/endpoints';
 import { AuthContext } from '../../context/AuthProvider';
 import { useParams } from 'react-router-dom';
 
@@ -31,7 +31,7 @@ const AdminRanking = () => {
 
         fetchAllUsers();
 
-    }, [accessToken])
+    }, [accessToken, contestId])
 
     return (
         <div className='bg-white rounded-md p-4'>

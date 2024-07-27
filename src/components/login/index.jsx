@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { getIP, validateStudentCode } from '../../services/UserServices';
-import { API_URL } from '../../constants';
+import { API_URL } from '../../constants/endpoints';
 import { AuthContext } from '../../context/AuthProvider';
 
 const Login = () => {

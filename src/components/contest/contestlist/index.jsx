@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthProvider';
-import { API_URL } from '../../constants';
 import { toast } from 'react-toastify';
+import { API_URL } from '../../../constants/endpoints';
+import { AuthContext } from '../../../context/AuthProvider';
 
 const ContestList = () => {
     const [userContests, setUserContests] = useState([])
@@ -25,8 +25,6 @@ const ContestList = () => {
             } catch (error) {
                 console.error('Error loading:', error);
             }
-
-
         };
         fetchContests()
     }, [accessToken, user.id])
@@ -46,10 +44,16 @@ const ContestList = () => {
             });
 
             const result = await response.json();
-            console.log(result)
             if (response.ok) {
                 if (result.status === 200) {
+                    setUserContests(userContests.map(userContest => 
+                        userContest.contest.id === contestId ?
+                        {...userContest, registered: true} :
+                        userContest
+                    ))
+                    
                     toast.success("Đăng kí cuộc thi thành công!", { autoClose: 2000 });
+
                 } else {
                     toast.error(result.message, { autoClose: 2000 });
                 }

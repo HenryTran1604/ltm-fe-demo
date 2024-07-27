@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../layouts/Header';
-import ScoreBoard from '../components/scoreboard';
+import ScoreBoard from '../components/contest/scoreboard';
 
 const ScoreBoardPage = () => {
     return (

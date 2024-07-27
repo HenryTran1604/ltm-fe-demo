@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { API_URL, SOCKET_URL } from '../../constants';
 import UserExercises from './UserExercises';
-import { AuthContext } from '../../context/AuthProvider';
 import { useParams } from 'react-router-dom';
+import { API_URL, SOCKET_URL } from '../../../constants/endpoints';
+import { AuthContext } from '../../../context/AuthProvider';
 
 const ScoreBoard = () => {
     const { contestId } = useParams()

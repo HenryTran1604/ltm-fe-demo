@@ -1,6 +1,6 @@
 import React from 'react';
-import ContestList from '../components/contestlist';
 import Header from '../layouts/Header';
+import ContestList from '../components/contest/contestlist';
 
 const ContestListPage = () => {
     return (

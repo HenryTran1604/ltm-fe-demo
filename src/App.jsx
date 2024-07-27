@@ -21,6 +21,7 @@ import AdminExerciseListPage from './pages/admin/AdminExerciseListPage';
 import AdminEditExercisePage from './pages/admin/AdminEditExercisePage';
 import ContestListPage from './pages/ContestListPage';
 import AdminManageContestPage from './pages/admin/AdminManageContestPage';
+import PracticeExercisesPage from './pages/PracticeExercisesPage';
 
 function App() {
 
@@ -30,8 +31,10 @@ function App() {
         <AppProvider>
           <Routes>
             <Route path='/' element={<PrivateRoute />}>
+
+              <Route path='practice/exercises' element={<PracticeExercisesPage />} />
               <Route path='contest/:contestId/exercises' element={<ExercisesPage />} />
-              <Route path='scoreboard/:contestId' element={<ScoreBoardPage />} />
+              <Route path='contest/:contestId/scoreboard' element={<ScoreBoardPage />} />
               <Route path='log' element={<LogPage />} />
               <Route path='contests' element={<ContestListPage />} />
               <Route path='/admin/' element={<AdminRoute />}>
@@ -47,7 +50,6 @@ function App() {
                 <Route path='exercises/:exerciseId/detail' element={<AdminEditExercisePage />} />
               </Route>
               <Route path='/*' element={<NotFoundPage />} />
-
             </Route>
 
             <Route path='/' element={<PublicRoute />} >
@@ -58,41 +60,6 @@ function App() {
           </Routes>
 
         </AppProvider>
-
-
-
-        {/* {
-            user !== null ? (
-              <>
-                {
-                  user.role === 'ROLE_USER' ? (
-                    <>
-                      {
-                        isContestOpen ? (
-                          <>
-                            <Route path='/exercises' element={<ExercisesPage />} />
-                            <Route path='/scoreboard' element={<ScoreBoardPage />} />
-                            <Route path='/log' element={<LogPage />} />
-                            <Route path='/list' element={<UserListPage />} />
-
-                          </>) : (
-                          <>
-                            <Route path='/*' element={<WaitingPage startTime={startTime} isContestOpen={isContestOpen} isLoggedIn={isLoggedIn} />} />
-                          </>)
-                      }
-                    </>) :
-                    (<>
-                      <Route path='/admin/contests' element={<AdminContestListPage />} />
-                      <Route path='/admin/user-list' element={<AdminUserListPage />} />
-                      <Route path='/admin/*' element={<AdminContestDetailPage />} />
-                    </>)
-                }
-              </>) : (
-              <>
-                <Route path='/*' element={<LoginPage />} />
-                <Route exact path='/register' element={<RegisterPage />} />
-              </>)
-          } */}
         <ToastContainer />
       </AuthProvider>
 

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { API_URL } from '../../constants';
+import { API_URL } from '../../constants/endpoints';
 import { AuthContext } from '../../context/AuthProvider';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const AdminContestDetail = () => {
     const { contestId } = useParams()
-    const [exercisesContest, setExercisesContest] = useState([]);
-    const [usersContest, setUsersContest] = useState([]);
+    const [contestExercises, setContestExercises] = useState([]);
+    const [contestUsers, setContestUsers] = useState([]);
     const { accessToken } = useContext(AuthContext);
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const AdminContestDetail = () => {
                     const result = await response.json();
                     console.log(result)
                     if (result.status === 200) {
-                        setExercisesContest(result.data.items);
+                        setContestExercises(result.data.items);
                     }
                 }
             } catch(error) {
@@ -46,7 +46,7 @@ const AdminContestDetail = () => {
                 const result = await response.json();
                 console.log(result)
                 if (result.status === 200) {
-                    setUsersContest(result.data.items);
+                    setContestUsers(result.data.items);
                 }
             }
         };
@@ -115,16 +115,16 @@ const AdminContestDetail = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {usersContest.map((usersContest, id) => (
+                            {contestUsers.map((contestUsers, id) => (
                                 <tr key={id} className="even:bg-gray-50 hover:bg-gray-200">
                                     <td className="border px-4 py-2">
                                         <input
                                             type="checkbox"
                                         />
                                     </td>
-                                    <td className="border px-4 py-2">{usersContest.user.id}</td>
-                                    <td className="border px-4 py-2">{usersContest.user.username.toUpperCase()}</td>
-                                    <td className="border px-4 py-2">{usersContest.user.ip}</td>
+                                    <td className="border px-4 py-2">{contestUsers.user.id}</td>
+                                    <td className="border px-4 py-2">{contestUsers.user.username.toUpperCase()}</td>
+                                    <td className="border px-4 py-2">{contestUsers.user.ip}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -143,12 +143,11 @@ const AdminContestDetail = () => {
                                 </th>
                                 <th className="border px-4 py-2">#</th>
                                 <th className="border px-4 py-2">Tên bài</th>
-                                <th className="border px-4 py-2">Định danh</th>
                                 <th className="border px-4 py-2">Topic</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {exercisesContest.map((exerciseContest, id) => (
+                            {contestExercises.map((exerciseContest, id) => (
                                 <tr key={id} className="even:bg-gray-50 hover:bg-gray-200">
                                     <td className="border px-4 py-2">
                                         <input
@@ -157,7 +156,6 @@ const AdminContestDetail = () => {
                                     </td>
                                     <td className="border px-4 py-2">{exerciseContest.exercise.id}</td>
                                     <td className="border px-4 py-2">{exerciseContest.exercise.name}</td>
-                                    <td className="border px-4 py-2">{exerciseContest.exercise.aliases.map(alias => alias.code).join(', ')}</td>
                                     <td className="border px-4 py-2">{exerciseContest.exercise.topic.name}</td>
                                 </tr>
                             ))}

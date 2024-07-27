@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
-import { API_URL } from '../../constants';
+import { API_URL } from '../../constants/endpoints';
 
 const AdminUserList = () => {
     const [users, setUsers] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthProvider';
-import { API_URL } from '../../constants';
+import { API_URL } from '../../constants/endpoints';
 import { toast } from 'react-toastify';
 
 const AdminManageContest = () => {
@@ -212,7 +212,6 @@ const AdminManageContest = () => {
                                 </th>
                                 <th className="border px-4 py-2">#</th>
                                 <th className="border px-4 py-2">Tên bài</th>
-                                <th className="border px-4 py-2">Định danh</th>
                                 <th className="border px-4 py-2">Topic</th>
                             </tr>
                         </thead>
@@ -228,7 +227,6 @@ const AdminManageContest = () => {
                                     </td>
                                     <td className="border px-4 py-2">{exercise.id}</td>
                                     <td className="border px-4 py-2">{exercise.name}</td>
-                                    <td className="border px-4 py-2">{exercise.aliases.map(alias => alias.code).join(', ')}</td>
                                     <td className="border px-4 py-2">{exercise.topic.name}</td>
                                 </tr>
                             ))}
