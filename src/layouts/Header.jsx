@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthProvider';
-import { AppContext } from '../context/AppProvider';
 
 const Header = () => {
-    const { isContestOpen } = useContext(AppContext);
-    const { user, IP } = useContext(AuthContext)
+    const { user, IP, logout } = useContext(AuthContext)
     return (
         <header className='z-10 fixed top-0 w-full bg-white'>
             <div className='flex justify-between items-center  shadow-[0px_2px_10px_#00000014] px-10 py-2'>
@@ -33,25 +31,30 @@ const Header = () => {
 
                 </div>
 
-                <div>
+                <div className='flex items-center gap-x-6'>
                     <div>
-                        <span>
-                            IP:
-                        </span>
-                        <span className='float-right font-bold'>
-                            {IP}
-                        </span>
-                    </div>
-                    {
-                        user && <div>
+                        <div>
                             <span>
-                                Info:
+                                IP:
                             </span>
-                            <span className='ml-2 float-right font-bold'>
-                                {user.username?.toUpperCase()}
+                            <span className='float-right font-bold'>
+                                {IP}
                             </span>
                         </div>
-                    }
+                        {
+                            user && <div>
+                                <span>
+                                    Info:
+                                </span>
+                                <span className='ml-2 float-right font-bold'>
+                                    {user.username?.toUpperCase()}
+                                </span>
+                            </div>
+                        }
+                    </div>
+                    <button className='w-6' title='Đăng xuất' onClick={logout}>
+                        <img src="/static/images/icons/logout.png" alt="" />
+                    </button>
                 </div>
             </div>
         </header>

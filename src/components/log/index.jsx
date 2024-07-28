@@ -37,7 +37,7 @@ const Log = () => {
         client.connect({}, () => {
             client.subscribe(`/topic/practice/${user.username}/logs`, (msg) => {
                 const newMessage = JSON.parse(msg.body)
-                console.log(newMessage)
+                // console.log(newMessage)
                 setMessages((prevMessages) => [newMessage, ...prevMessages]);
             });
         }, (err) => {

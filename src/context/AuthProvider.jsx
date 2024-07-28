@@ -11,13 +11,7 @@ const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true); // Sửa thành true để hiển thị "Loading..." khi ứng dụng khởi động
     const [IP, setIP] = useState('Detecting...');
 
-    // useEffect(() => {
-    //     const fetchIP = async () => {
-    //         const userIP = await getIP();
-    //         setIP(userIP);
-    //     }
-    //     fetchIP();
-    // }, []);
+
     useEffect(() => {
         const fetchIP = async () => {
             try {
@@ -49,6 +43,13 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem('ltm', JSON.stringify(utils));
     }
 
+    const logout = () => {
+        localStorage.removeItem("ltm");
+        setUser(null);
+        setAccessToken('')
+        setRefreshToken('')
+    }
+
     useEffect(() => {
         const foundUtils = localStorage.getItem('ltm');
         if (foundUtils) {
@@ -61,7 +62,7 @@ const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, loginAuth, accessToken, refreshToken, IP }}>
+        <AuthContext.Provider value={{ user, loginAuth, logout, accessToken, refreshToken, IP }}>
             {isLoading ? <div>Loading...</div> : children}
         </AuthContext.Provider>
     );
