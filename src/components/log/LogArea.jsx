@@ -1,55 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
-import { AuthContext } from '../../context/AuthProvider';
-import { API_URL, SOCKET_URL } from '../../constants/endpoints';
-
-const LogArea = (props) => {
-    const filterValue = props.filterValue;
-
-    const [messages, setMessages] = useState([]);
-    const { accessToken } = useContext(AuthContext)
-
-    useEffect(() => {
-        const fetchHistoryLog = async () => {
-            try {
-                const response = await fetch(`${API_URL}/client-logs`, {
-                    headers: {
-                        "Authorization": `Bearer ${accessToken}`,
-                        "Content-Type": "application/json"
-                    }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setMessages(data.data.items.reverse());
-                }
-            } catch(error) {
-                // handle
-            }
-            
-        };
-
-        fetchHistoryLog();
-
-
-        const client = Stomp.over(() => new SockJS(SOCKET_URL));
-
-        client.connect({}, () => {
-            client.subscribe('/topic/log', (msg) => {
-                const newMessage = JSON.parse(msg.body)
-                setMessages((prevMessages) => [newMessage, ...prevMessages]);
-            });
-        }, (err) => {
-            console.log(err)
-        });
-
-        return () => {
-            if (client) {
-                client.disconnect();
-            }
-        };
-    }, [accessToken]);
-
+import React from 'react';
+const LogArea = ({filterValue, messages}) => {
     return (
         <div className='mt-4 border-t-2 border-[#DDDDE3] border-solid h-[90%] p-4 overflow-y-scroll'>
             {messages.filter((value, _) => value.content?.includes(filterValue)).map((message, index) => (

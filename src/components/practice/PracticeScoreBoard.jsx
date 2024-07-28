@@ -1,19 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import UserExercises from './UserExercises';
-import { useParams } from 'react-router-dom';
-import { API_URL, SOCKET_URL } from '../../../constants/endpoints';
-import { AuthContext } from '../../../context/AuthProvider';
+import { toast } from 'react-toastify';
+import { API_URL, SOCKET_URL } from '../../constants/endpoints';
+import { AuthContext } from '../../context/AuthProvider';
+import UserExercises from '../contest/scoreboard/UserExercises';
 
-const ScoreBoard = () => {
-    const { contestId } = useParams()
+const PracticeScoreBoard = () => {
     const [scoreBoard, setScoreBoard] = useState({})
     const { accessToken, user } = useContext(AuthContext)
     useEffect(() => {
         const fetchAllUsers = async () => {
             try {
-                const response = await fetch(`${API_URL}/contests/scoreboard?contestId=${contestId}&userId=${user.id}`, {
+                const response = await fetch(`${API_URL}/practice/scoreboard?userId=${user.id}`, {
                     headers: {
                         "Authorization": `Bearer ${accessToken}`,
                         "Content-Type": "application/json"
@@ -26,7 +25,7 @@ const ScoreBoard = () => {
                     }
                 }
             } catch (error) {
-                // hanlde
+                toast.error("Không có kết nối mạng! ")
             }
 
         }
@@ -37,7 +36,7 @@ const ScoreBoard = () => {
         const client = Stomp.over(socket)
 
         client.connect({}, () => {
-            client.subscribe(`/topic/scoreboard/${user.id}`, (msg) => {
+            client.subscribe(`/topic/practice/${user.username}`, (msg) => {
                 const result = JSON.parse(msg.body)
                 setScoreBoard(result)
             });
@@ -50,7 +49,7 @@ const ScoreBoard = () => {
                 client.disconnect();
             }
         };
-    }, [accessToken, user.id, contestId])
+    }, [accessToken, user.id, user.username])
 
     return (
         <div className='bg-white rounded-md p-4'>
@@ -61,14 +60,21 @@ const ScoreBoard = () => {
                         <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500 ">Mã sinh viên</th>
                         <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500">Score</th>
                         {
-                            scoreBoard?.userExerciseContests?.map((exercise, id) =>
-                                <th key={id} className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {exercise.alias}</th>
+                            scoreBoard?.practiceUserExercises?.map((_, id) =>
+                                <th key={id} className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {id + 1}</th>
                             )
                         }
                     </tr>
                 </thead>
                 <tbody>
-                    <UserExercises key={scoreBoard.id} scoreBoard={scoreBoard} />
+                    {
+                        scoreBoard.practiceUserExercises && <UserExercises username={scoreBoard.username}
+                            ip={scoreBoard.ip}
+                            id={scoreBoard.id}
+                            score={scoreBoard.score}
+                            exercises={scoreBoard.practiceUserExercises}
+                        />
+                    }
                 </tbody>
 
             </table>
@@ -76,4 +82,4 @@ const ScoreBoard = () => {
     );
 };
 
-export default ScoreBoard;
+export default PracticeScoreBoard;

@@ -21,7 +21,7 @@ const AdminContestDetail = () => {
                 });
                 if (response.ok) {
                     const result = await response.json();
-                    console.log(result)
+                    // console.log(result)
                     if (result.status === 200) {
                         setContestExercises(result.data.items);
                     }

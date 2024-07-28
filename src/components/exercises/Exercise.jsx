@@ -13,11 +13,10 @@ const Exercise = (props) => {
                         assignedExercise.exercise.content.split('\\n').map((e, id) => <p key={id}>{e}</p>)
                     }   
                 </div>
-                <div>
-                    Status: {assignedExercise.ac ? "Completed" : "Nope"}
-                    {
-                        console.log(assignedExercise.ac)
-                    }
+                <div className='float-right'>
+                    Status: {assignedExercise.ac ? 
+                    <span className='text-green-500'> "Hoàn thành" </span>: 
+                    <span className=''>Chưa hoàn thành</span>}
                 </div>
             </div>
         </div>

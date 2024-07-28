@@ -22,6 +22,8 @@ import AdminEditExercisePage from './pages/admin/AdminEditExercisePage';
 import ContestListPage from './pages/ContestListPage';
 import AdminManageContestPage from './pages/admin/AdminManageContestPage';
 import PracticeExercisesPage from './pages/PracticeExercisesPage';
+import PracticeScoreBoardPage from './pages/PracticeScoreBoardPage';
+import TestPage from './pages/TestPage';
 
 function App() {
 
@@ -30,9 +32,10 @@ function App() {
       <AuthProvider>
         <AppProvider>
           <Routes>
+            <Route path='/test' element={<TestPage/>}/>
             <Route path='/' element={<PrivateRoute />}>
-
               <Route path='practice/exercises' element={<PracticeExercisesPage />} />
+              <Route path='practice/scoreboard' element={<PracticeScoreBoardPage />} />
               <Route path='contest/:contestId/exercises' element={<ExercisesPage />} />
               <Route path='contest/:contestId/scoreboard' element={<ScoreBoardPage />} />
               <Route path='log' element={<LogPage />} />
@@ -49,13 +52,14 @@ function App() {
                 <Route path='exercises/add' element={<AdminEditExercisePage />} />
                 <Route path='exercises/:exerciseId/detail' element={<AdminEditExercisePage />} />
               </Route>
-              <Route path='/*' element={<NotFoundPage />} />
             </Route>
 
             <Route path='/' element={<PublicRoute />} >
               <Route path='/register' element={<RegisterPage />} />
               <Route path='/login' element={<LoginPage />} />
             </Route>
+            <Route path='/*' element={<NotFoundPage />} />
+
 
           </Routes>
 

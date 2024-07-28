@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { API_URL } from '../../constants/endpoints';
 import { AuthContext } from '../../context/AuthProvider';
 import { useParams } from 'react-router-dom';
+import UserExercises from '../contest/scoreboard/UserExercises';
 
 const AdminRanking = () => {
     const { contestId } = useParams()
@@ -10,7 +11,7 @@ const AdminRanking = () => {
     useEffect(() => {
         const fetchAllUsers = async () => {
             try {
-                const response = await fetch(`${API_URL}/scoreboard/all?contestId=${contestId}`, {
+                const response = await fetch(`${API_URL}/contests/scoreboard/all?contestId=${contestId}`, {
                     headers: {
                         "Authorization": `Bearer ${accessToken}`,
                         "Content-Type": "application/json"
@@ -18,7 +19,6 @@ const AdminRanking = () => {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data.data)
                     if (data.status === 200) {
                         setRankings(data.data.sort((a, b) => b.score - a.score))
                     }
@@ -42,35 +42,21 @@ const AdminRanking = () => {
                         <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500 ">Mã sinh viên</th>
                         <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500">Score</th>
                         {
-                            rankings[0]?.userExerciseContests?.map((_, id) =>
-                                <th key={id} className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {id}</th>
+                            rankings[0]?.contestUserExercises?.map((_, id) =>
+                                <th key={id} className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"> {id + 1}</th>
                             )
                         }
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        rankings?.map((ranking, id) => (
-                            <tr key={id} className={`odd:bg-white even:bg-gray-100 hover:bg-gray-200 border-y-2 border-black border-solid rounded-sm`}>
-                                <td className='px-6 whitespace-nowrap text-sm font-medium text-gray-800'>{ranking.id}</td>
-                                <td className='px-6 whitespace-nowrap text-sm font-medium text-gray-800'>
-                                    <div className='text-lg'>{ranking?.username?.toUpperCase()}</div>
-                                    <div className='text-sm text-[dimgrey]'>{ranking.ip}</div>
-                                </td>
-                                <td className='px-6 whitespace-nowrap text-sm font-medium text-gray-800'>{ranking.score}</td>
-                                {
-                                    ranking?.userExerciseContests?.map((exercise, index) => (
-                                        <td key={index} className='px-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center'>
-                                            <div className={`${exercise.attemptCount > 0 ? `bg-[#e87272]` : ''}  ${exercise.ac ? `!bg-[#60e760]` : ''} min-h-12 max-w-16 m-auto`}>
-                                                <strong>{exercise.alias}</strong>
-                                                <div>
-                                                    {exercise.attemptCount !== 0 && `${exercise.attemptCount} Try`}
-                                                </div>
-                                            </div>
-                                        </td>
-                                    ))
-                                }
-                            </tr>
+                        rankings.map((ranking, id) => (
+                            <UserExercises key={id} username={ranking.username}
+                                ip={ranking.ip}
+                                id={ranking.id}
+                                score={ranking.score}
+                                exercises={ranking.contestUserExercises}
+                            />
                         ))
                     }
                 </tbody>

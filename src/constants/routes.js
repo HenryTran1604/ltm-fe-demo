@@ -3,7 +3,7 @@ export const HOME = '/';
 export const LOGIN = '/login';
 export const REGISTER = '/register';
 // practice
-export const PRACTICE = '/practice';
+export const PRACTICE_SCOREBOARD = '/practice/scoreboard';
 export const PRACTICE_EXERCISES = '/practice/exercises';
 export const PRACTICE_LOG = '/practice/log'
 

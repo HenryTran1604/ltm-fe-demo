@@ -16,7 +16,7 @@ const AdminExerciseList = () => {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data)
+                    // console.log(data)
                     setExercises(data.data.items)
                 }
             } catch(error) {
@@ -50,7 +50,7 @@ const AdminExerciseList = () => {
                 <tbody>
                     {
                         exercises.map((exercise, id) => (
-                            <tr className="even:bg-gray-50 hover:bg-gray-200">
+                            <tr key={id} className="even:bg-gray-50 hover:bg-gray-200">
                                 <td className="border px-4 py-2 text-center">{exercise.id}</td>
                                 <td className="border px-4 py-2">{exercise.name}</td>
                                 <td className="border px-4 py-2">{exercise.topic.name}</td>
