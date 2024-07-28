@@ -36,7 +36,7 @@ const PracticeScoreBoard = () => {
         const client = Stomp.over(socket)
 
         client.connect({}, () => {
-            client.subscribe(`/topic/practice/${user.username}`, (msg) => {
+            client.subscribe(`/topic/practice/${user.username}/scoreboard`, (msg) => {
                 const result = JSON.parse(msg.body)
                 setScoreBoard(result)
             });
