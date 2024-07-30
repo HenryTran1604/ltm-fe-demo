@@ -1,5 +1,5 @@
 // basic for user
-export const HOME = '/';
+export const HOME = '/practice/exercises';
 export const LOGIN = '/login';
 export const REGISTER = '/register';
 // practice

@@ -26,22 +26,21 @@ import PracticeScoreBoardPage from './pages/PracticeScoreBoardPage';
 import TestPage from './pages/TestPage';
 
 function App() {
-
   return (
     <BrowserRouter>
       <AuthProvider>
         <AppProvider>
           <Routes>
-            <Route path='/test' element={<TestPage/>}/>
+            <Route path='/test' element={<TestPage />} />
             <Route path='/' element={<PrivateRoute />}>
-              <Route path='practice/exercises' element={<PracticeExercisesPage />} />
+              <Route index path='practice/exercises' element={<PracticeExercisesPage />} />
               <Route path='practice/scoreboard' element={<PracticeScoreBoardPage />} />
               <Route path='contest/:contestId/exercises' element={<ExercisesPage />} />
               <Route path='contest/:contestId/scoreboard' element={<ScoreBoardPage />} />
               <Route path='log' element={<LogPage />} />
               <Route path='contests' element={<ContestListPage />} />
               <Route path='/admin/' element={<AdminRoute />}>
-                <Route path='contests' element={<AdminContestListPage />} />
+                <Route index path='contests' element={<AdminContestListPage />} />
                 <Route path='contests/add' element={<AdminEditContestPage />} />
                 <Route path='contests/:contestId/edit' element={<AdminEditContestPage />} />
                 <Route path='contests/:contestId/detail' element={<AdminContestDetailPage />} />
@@ -58,7 +57,7 @@ function App() {
               <Route path='/register' element={<RegisterPage />} />
               <Route path='/login' element={<LoginPage />} />
             </Route>
-            <Route path='/*' element={<NotFoundPage />} />
+            <Route path='*' element={<NotFoundPage />} />
 
 
           </Routes>

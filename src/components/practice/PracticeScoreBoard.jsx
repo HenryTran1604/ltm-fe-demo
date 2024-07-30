@@ -36,7 +36,7 @@ const PracticeScoreBoard = () => {
         const client = Stomp.over(socket)
 
         client.connect({}, () => {
-            client.subscribe(`/topic/practice/${user.username}/scoreboard`, (msg) => {
+            client.subscribe(`/topic/practice/${user.ip}/${user.username}/scoreboard`, (msg) => {
                 const result = JSON.parse(msg.body)
                 setScoreBoard(result)
             });
@@ -49,7 +49,7 @@ const PracticeScoreBoard = () => {
                 client.disconnect();
             }
         };
-    }, [accessToken, user.id, user.username])
+    }, [accessToken, user.id, user.ip, user.username])
 
     return (
         <div className='bg-white rounded-md p-4'>

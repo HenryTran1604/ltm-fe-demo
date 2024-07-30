@@ -33,9 +33,9 @@ const Log = () => {
 
 
         const client = Stomp.over(() => new SockJS(SOCKET_URL));
-
+        client.debug = () => {};
         client.connect({}, () => {
-            client.subscribe(`/topic/practice/${user.username}/logs`, (msg) => {
+            client.subscribe(`/topic/practice/${user.ip}/${user.username}/logs`, (msg) => {
                 const newMessage = JSON.parse(msg.body)
                 // console.log(newMessage)
                 setMessages((prevMessages) => [newMessage, ...prevMessages]);
@@ -49,7 +49,7 @@ const Log = () => {
                 client.disconnect();
             }
         };
-    }, [accessToken, user.id, user.username]);
+    }, [accessToken, user.id, user.ip, user.username]);
 
 
     return (

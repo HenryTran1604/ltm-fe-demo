@@ -26,34 +26,34 @@ const AdminUserList = () => {
     }, [accessToken])
     return (
         <div className='bg-white p-5'>
-            <div class="flex justify-center items-center mb-5">
+            <div className="flex justify-center items-center mb-5">
                 <a href="./listContest.html">
-                    <h1 class="text-2xl font-bold">Danh sách người dùng</h1>
+                    <h1 className="text-2xl font-bold">Danh sách người dùng</h1>
                 </a>
             </div>
 
-            <table class="w-full border-collapse mb-5">
+            <table className="w-full border-collapse mb-5">
                 <thead>
                     <tr>
-                        <th class="border px-4 py-2 text-center bg-gray-100">STT</th>
-                        <th class="border px-4 py-2 bg-gray-100">UID</th>
-                        <th class="border px-4 py-2 bg-gray-100">Mã Sinh Viên</th>
-                        <th class="border px-4 py-2 bg-gray-100">IP</th>
-                        <th class="border px-4 py-2 bg-gray-100">Thời gian đăng ký</th>
-                        <th class="border px-4 py-2 bg-gray-100">Action</th>
+                        <th className="border px-4 py-2 text-center bg-gray-100">STT</th>
+                        <th className="border px-4 py-2 bg-gray-100">UID</th>
+                        <th className="border px-4 py-2 bg-gray-100">Mã Sinh Viên</th>
+                        <th className="border px-4 py-2 bg-gray-100">IP</th>
+                        <th className="border px-4 py-2 bg-gray-100">Thời gian đăng ký</th>
+                        <th className="border px-4 py-2 bg-gray-100">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         users.map((user, id) => (
-                            <tr key={id} class="even:bg-gray-50 hover:bg-gray-200">
+                            <tr key={id} className="even:bg-gray-50 hover:bg-gray-200">
 
-                                <td class="border px-4 py-2 text-center">{id}</td>
-                                <td class="border px-4 py-2 text-center">{user.id}</td>
-                                <td class="border px-4 py-2">{user.username}</td>
-                                <td class="border px-4 py-2">{user.ip}</td>
-                                <td class="border px-4 py-2">{user.createdAt}</td>
-                                <td class="border px-4 py-2 flex justify-evenly">
+                                <td className="border px-4 py-2 text-center">{id}</td>
+                                <td className="border px-4 py-2 text-center">{user.id}</td>
+                                <td className="border px-4 py-2">{user.username}</td>
+                                <td className="border px-4 py-2">{user.ip}</td>
+                                <td className="border px-4 py-2">{user.createdAt}</td>
+                                <td className="border px-4 py-2 flex justify-evenly">
                                     <button className='bg-green-500 px-4 py-1 rounded-md'>Sửa</button>
                                     <button className='bg-orange-400 px-4 py-1 rounded-md'>Xóa</button>
                                 </td>
