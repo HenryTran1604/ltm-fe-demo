@@ -35,7 +35,7 @@ const ScoreBoard = () => {
             return new SockJS(SOCKET_URL);
         }
         const client = Stomp.over(socket)
-
+        client.debug(() => {})
         client.connect({}, () => {
             client.subscribe(`/topic/scoreboard/${user.id}`, (msg) => {
                 const result = JSON.parse(msg.body)

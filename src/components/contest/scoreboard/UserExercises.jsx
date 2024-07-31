@@ -1,7 +1,6 @@
 import React from 'react';
 
 const UserExercises = ({ username, id, score, ip, exercises }) => {
-    console.log(exercises)
     return (
         <tr className={`odd:bg-white even:bg-gray-100 hover:bg-gray-200 border-y-2 border-black border-solid rounded-sm`}>
             <td className='px-6 whitespace-nowrap text-sm font-medium text-gray-800'>{id}</td>

@@ -15,8 +15,6 @@ const Header = () => {
                         user?.role === 'ROLE_USER' && <div className='flex ml-10 gap-x-10'>
                             <Link to={'/practice/exercises'}>Luyện tập</Link>
                             <Link to={'/contests'}>Cuộc thi</Link>
-                            <Link to={'/log'}>Log</Link>
-
                         </div>
                     }
                     {

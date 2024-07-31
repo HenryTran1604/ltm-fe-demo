@@ -8,6 +8,7 @@ import LogArea from './LogArea';
 const Log = () => {
     const [filterValue, setFilterValue] = useState('')
     const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState({})
     const { user, accessToken } = useContext(AuthContext)
 
     useEffect(() => {
@@ -37,8 +38,11 @@ const Log = () => {
         client.connect({}, () => {
             client.subscribe(`/topic/practice/${user.ip}/${user.username}/logs`, (msg) => {
                 const newMessage = JSON.parse(msg.body)
-                // console.log(newMessage)
+                setNewMessage(newMessage)
                 setMessages((prevMessages) => [newMessage, ...prevMessages]);
+                setTimeout(() => {
+                    setNewMessage({})
+                }, 5000)
             });
         }, (err) => {
             console.log(err)
@@ -55,7 +59,7 @@ const Log = () => {
     return (
         <div className='bg-white rounded-lg p-4 h-full shadow-[0px_2px_10px_#00000014] overflow-hidden'>
             <SearchBar filterValue={filterValue} setFilterValue={setFilterValue} />
-            <LogArea filterValue={filterValue} messages={messages} />
+            <LogArea filterValue={filterValue} messages={messages} newMessage={newMessage}/>
         </div>
 
     );

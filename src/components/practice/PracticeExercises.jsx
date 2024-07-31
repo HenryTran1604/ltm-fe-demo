@@ -3,7 +3,7 @@ import { API_URL } from '../../constants/endpoints';
 import { AuthContext } from '../../context/AuthProvider';
 import Exercise from '../exercises/Exercise';
 import { Link, useParams } from 'react-router-dom';
-import { PRACTICE_SCOREBOARD } from '../../constants/routes';
+import { PRACTICE_LOG, PRACTICE_SCOREBOARD } from '../../constants/routes';
 
 const PracticeExercises = () => {
     const { contestId } = useParams()
@@ -36,8 +36,9 @@ const PracticeExercises = () => {
         <div className=''>
             <div className='flex items-center justify-between px-6'>
                 <h2 className='text-2xl font-bold'>Danh sách bài luyện tập</h2>
-                <div className=''>
+                <div className='flex gap-x-4'>
                     <Link className='px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700' to={PRACTICE_SCOREBOARD}>Kết quả</Link>
+                    <Link className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700' to={PRACTICE_LOG}>Log</Link>
                 </div>
             </div>
             <div>

@@ -34,7 +34,7 @@ const PracticeScoreBoard = () => {
             return new SockJS(SOCKET_URL);
         }
         const client = Stomp.over(socket)
-
+        client.debug = () => {};
         client.connect({}, () => {
             client.subscribe(`/topic/practice/${user.ip}/${user.username}/scoreboard`, (msg) => {
                 const result = JSON.parse(msg.body)
@@ -70,7 +70,7 @@ const PracticeScoreBoard = () => {
                     {
                         scoreBoard.practiceUserExercises && <UserExercises username={scoreBoard.username}
                             ip={scoreBoard.ip}
-                            id={scoreBoard.id}
+                            id={1}
                             score={scoreBoard.score}
                             exercises={scoreBoard.practiceUserExercises}
                         />

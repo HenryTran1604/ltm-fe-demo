@@ -31,7 +31,6 @@ const AuthProvider = ({ children }) => {
                 fetchIP();
             }
         }, 5000); 
-        console.log(1)
 
         return () => clearInterval(intervalId); // Cleanup on unmount
     }, [IP]); 

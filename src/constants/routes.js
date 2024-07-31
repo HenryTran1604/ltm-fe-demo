@@ -5,7 +5,7 @@ export const REGISTER = '/register';
 // practice
 export const PRACTICE_SCOREBOARD = '/practice/scoreboard';
 export const PRACTICE_EXERCISES = '/practice/exercises';
-export const PRACTICE_LOG = '/practice/log'
+export const PRACTICE_LOG = '/log'
 
 // contest
 export const CONTESTS = '/contests'

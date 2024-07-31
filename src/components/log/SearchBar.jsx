@@ -5,7 +5,7 @@ const SearchBar = ({ filterValue, setFilterValue }) => {
     return (
         <div className='flex items-center h-10 p-2 border-[#DDDDE3] border-solid border-2 w-full'>
             <div className='p-2 flex-1'>
-                <input className='border-none outline-none rounded-sm w-full' type="text" placeholder='Lọc theo mã sinh viên'
+                <input className='border-none outline-none rounded-sm w-full' type="text" placeholder='Lọc theo từ khóa ...'
                     value={filterValue} onChange={(e) => setFilterValue(e.target.value)} />
             </div>
             <div className='px-2 flex gap-x-4'>

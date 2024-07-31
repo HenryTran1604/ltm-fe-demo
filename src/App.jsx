@@ -13,7 +13,7 @@ import AdminUserListPage from './pages/admin/AdminUserListPage';
 import NotFoundPage from './pages/NotFoundPage';
 import PrivateRoute from './routes/PrivateRoute';
 import AdminRoute from './routes/AdminRoute';
-import AppProvider from './context/AppProvider';
+// import AppProvider from './context/AppProvider';
 import PublicRoute from './routes/PublicRoute';
 import AdminRankingPage from './pages/admin/AdminRankingPage';
 import AdminEditContestPage from './pages/admin/AdminEditContestPage';
@@ -29,11 +29,12 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppProvider>
+        {/* <AppProvider> */}
           <Routes>
             <Route path='/test' element={<TestPage />} />
             <Route path='/' element={<PrivateRoute />}>
-              <Route index path='practice/exercises' element={<PracticeExercisesPage />} />
+              <Route index element={<PracticeExercisesPage />} />  
+              <Route path='practice/exercises' element={<PracticeExercisesPage />} />  
               <Route path='practice/scoreboard' element={<PracticeScoreBoardPage />} />
               <Route path='contest/:contestId/exercises' element={<ExercisesPage />} />
               <Route path='contest/:contestId/scoreboard' element={<ScoreBoardPage />} />
@@ -61,8 +62,7 @@ function App() {
 
 
           </Routes>
-
-        </AppProvider>
+        {/* </AppProvider> */}
         <ToastContainer />
       </AuthProvider>
 
