@@ -23,17 +23,8 @@ const AuthProvider = ({ children }) => {
                 toast.error('Vui lòng kiếm tra kết nối mạng')
             }
         };
-
         fetchIP(); 
-
-        const intervalId = setInterval(() => {
-            if (!IP) {
-                fetchIP();
-            }
-        }, 5000); 
-
-        return () => clearInterval(intervalId); // Cleanup on unmount
-    }, [IP]); 
+    }, []); 
 
     const loginAuth = (utils) => {
         setUser(utils.user);

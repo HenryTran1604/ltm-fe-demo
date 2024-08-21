@@ -24,6 +24,7 @@ import AdminManageContestPage from './pages/admin/AdminManageContestPage';
 import PracticeExercisesPage from './pages/PracticeExercisesPage';
 import PracticeScoreBoardPage from './pages/PracticeScoreBoardPage';
 import TestPage from './pages/TestPage';
+import TestLayout from './pages/TestLayout';
 
 function App() {
   return (
@@ -32,6 +33,8 @@ function App() {
         {/* <AppProvider> */}
           <Routes>
             <Route path='/test' element={<TestPage />} />
+            <Route path='/testlayout' element={<TestLayout />} />
+            
             <Route path='/' element={<PrivateRoute />}>
               <Route index element={<PracticeExercisesPage />} />  
               <Route path='practice/exercises' element={<PracticeExercisesPage />} />  

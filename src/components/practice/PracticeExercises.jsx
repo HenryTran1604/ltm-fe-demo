@@ -34,7 +34,7 @@ const PracticeExercises = () => {
     }, [accessToken, user.id, contestId])
     return (
         <div className=''>
-            <div className='flex items-center justify-between px-6'>
+            <div className='flex items-center justify-between px-6 fixed'>
                 <h2 className='text-2xl font-bold'>Danh sách bài luyện tập</h2>
                 <div className='flex gap-x-4'>
                     <Link className='px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700' to={PRACTICE_SCOREBOARD}>Kết quả</Link>
